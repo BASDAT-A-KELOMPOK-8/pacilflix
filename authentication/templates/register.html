@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Register</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;"> <!-- Pusatkan konten -->
+    <div class="card" style="width: 24rem;"> <!-- Kartu Bootstrap -->
+        <div class="card-header text-center"> <!-- Bagian header -->
+            <h1>FORM REGISTRASI</h1>
+        </div>
+        <div class="card-body"> <!-- Isi kartu -->
+            <form method="POST">  
+                {% csrf_token %}  
+                {{ form.as_p }} <!-- Tampilkan form dalam format yang lebih rapi -->
+                <div class="text-center"> <!-- Penempatan tombol di tengah -->
+                    <input type="submit" class="btn btn-primary" value="Daftar"/> <!-- Tombol Bootstrap -->
+                </div>  
+            </form>
+
+            {% if messages %}  
+                <ul class="list-unstyled text-center"> <!-- Daftar tanpa bullet -->
+                    {% for message in messages %}  
+                        <li>{{ message }}</li>  
+                    {% endfor %}  
+                </ul>   
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
