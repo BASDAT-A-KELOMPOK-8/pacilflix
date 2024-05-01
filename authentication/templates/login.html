@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;"> <!-- Pusatkan konten -->
+    <div class="card" style="width: 24rem;"> <!-- Kartu Bootstrap -->
+        <div class="card-header text-center"> <!-- Header kartu -->
+            <h1>FORM LOGIN</h1>
+        </div>
+        <div class="card-body"> <!-- Isi kartu -->
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3"> <!-- Margin-bottom -->
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" class="form-control" placeholder="Username">
+                </div>
+                <div class="mb-3">
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" class="form-control" placeholder="Password">
+                </div>
+                <div class="text-center"> <!-- Penempatan tombol di tengah -->
+                    <input type="submit" class="btn btn-primary" value="Login"> <!-- Tombol Bootstrap -->
+                </div>
+            </form>
+
+            {% if messages %}
+                <ul class="list-unstyled text-center"> <!-- Gaya Bootstrap untuk ul -->
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

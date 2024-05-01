@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>PacilFlix - A8</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;"> <!-- Pusatkan konten secara vertikal dan horizontal -->
+    <div class="card" style="width: 18rem;"> <!-- Kartu Bootstrap -->
+        <div class="card-body text-center"> <!-- Isi kartu dengan penempatan tengah -->
+            <h1 class="card-title">PacilFlix - A8</h1>
+            <div class="d-flex flex-column"> <!-- Kolom vertikal -->
+                <div class="mb-2"> <!-- Margin-bottom untuk jarak -->
+                    <a href="/login/" class="btn btn-primary">  <!-- Tombol Bootstrap -->
+                        Login
+                    </a>
+                </div>
+                <div class="mb-2">
+                    <a href="/register/" class="btn btn-secondary">  <!-- Tombol Bootstrap -->
+                        Register
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
