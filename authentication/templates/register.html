@@ -5,22 +5,51 @@
 {% endblock meta %}
 
 {% block content %}
-<div class="d-flex justify-content-center align-items-center" style="height: 100vh;"> <!-- Pusatkan konten -->
-    <div class="card" style="width: 24rem;"> <!-- Kartu Bootstrap -->
-        <div class="card-header text-center"> <!-- Bagian header -->
+<style>
+    .navbar-custom {
+    background-color: #1E90FF; /* Dodger Blue */
+    }
+
+    .navbar-custom .nav-link,
+    .navbar-custom .navbar-brand {
+        color: white; /* Mengubah warna font menjadi putih */
+    }
+
+    .navbar-custom .nav-link:hover,
+    .navbar-custom .navbar-brand:hover {
+        color: #cccccc; /* Warna saat hover, bisa disesuaikan */
+    }
+</style>
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom"> 
+        <a class="navbar-brand" href="/">PacilFlix - A8</a> 
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/trailers" style="color: white;">Trailer Tayangan</a>
+                    </li>       
+            </ul>
+        </div>
+    </nav>
+    
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;"> 
+    <div class="card" style="width: 24rem;">
+        <div class="card-header text-center"> 
             <h1>FORM REGISTRASI</h1>
         </div>
-        <div class="card-body"> <!-- Isi kartu -->
+        <div class="card-body"> 
             <form method="POST">  
                 {% csrf_token %}  
-                {{ form.as_p }} <!-- Tampilkan form dalam format yang lebih rapi -->
-                <div class="text-center"> <!-- Penempatan tombol di tengah -->
-                    <input type="submit" class="btn btn-primary" value="Daftar"/> <!-- Tombol Bootstrap -->
+                {{ form.as_p }} 
+                <div class="text-center"> 
+                    <input type="submit" class="btn btn-primary" value="Daftar"/> 
                 </div>  
             </form>
 
             {% if messages %}  
-                <ul class="list-unstyled text-center"> <!-- Daftar tanpa bullet -->
+                <ul class="list-unstyled text-center"> 
                     {% for message in messages %}  
                         <li>{{ message }}</li>  
                     {% endfor %}  
