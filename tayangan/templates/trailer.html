@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<title>Daftar Tayangan</title>
+  <!-- Bootstrap CSS -->
+  <style>
+    body {
+      background-color: #15202b; /* Dark blue */
+      color: #ffffff; /* White text */
+    }
+    .container {
+      margin-top: 50px;
+    }
+    .card {
+      background-color: #1e2a38; /* Darker blue */
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .card-header {
+      background-color: #007bff; /* Light blue */
+      color: #ffffff; /* White text */
+      border-bottom: none;
+    }
+    .card-body {
+      padding: 20px;
+    }
+    .card-title {
+      color: #ffffff; /* White text */
+    }
+    .card-text {
+      color: #cccccc; /* Light gray text */
+    }
+    .btn-primary {
+      background-color: #007bff; /* Light blue */
+      border-color: #007bff; /* Light blue border */
+    }
+    .btn-primary:hover {
+      background-color: #0056b3; /* Darker blue on hover */
+      border-color: #0056b3; /* Darker blue border on hover */
+    }
+    /* Center the heading */
+    .center-heading {
+      text-align: center;
+    }
+    /* Improve text readability */
+    table {
+      color: #ffffff; /* White text */
+    }
+    th, td{
+        color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+<h1 class="center-heading">Daftar Tayangan</h1>
+<div class="container">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search Tayangan..." aria-label="Search Tayangan" aria-describedby="button-search">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button" id="button-search">Search</button>
+        </div>
+      </div>
+  <!-- Tayangan Terbaik Minggu Ini -->
+  <div class="card">
+    <div class="card-header">
+      <h4 class="mb-0">Tayangan Terbaik Minggu Ini</h4>
+      <div class="btn-group float-right" role="group">
+        <button type="button" class="btn btn-secondary">Opsi Top 10 Global (default)</button>
+        <button type="button" class="btn btn-secondary">Opsi Top 10 Negara Pengguna</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Peringkat</th>
+            <th>Judul</th>
+            <th>Sinopsis</th>
+            <th>Trailer URL</th>
+            <th>Tanggal Rilis</th>
+            <th>Total View 7 Hari Terakhir</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Judul Tayangan 1</td>
+            <td>Sinopsis dari Judul Tayangan 1</td>
+            <td><a href="#">Trailer Link</a></td>
+            <td>01/01/2024</td>
+            <td>1,000,000</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Judul Tayangan 2</td>
+            <td>Sinopsis dari Judul Tayangan 2</td>
+            <td><a href="#">Trailer Link</a></td>
+            <td>01/01/2024</td>
+            <td>1,000,000</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Judul Tayangan 3</td>
+            <td>Sinopsis dari Judul Tayangan 3</td>
+            <td><a href="#">Trailer Link</a></td>
+            <td>01/01/2024</td>
+            <td>1,000,000</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Judul Tayangan 4</td>
+            <td>Sinopsis dari Judul Tayangan 4</td>
+            <td><a href="#">Trailer Link</a></td>
+            <td>01/01/2024</td>
+            <td>1,000,000</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Judul Tayangan 5</td>
+            <td>Sinopsis dari Judul Tayangan 5</td>
+            <td><a href="#">Trailer Link</a></td>
+            <td>01/01/2024</td>
+            <td>1,000,000</td>
+          </tr>
+          <!-- Repeat the above row structure for each tayangan -->
+          <!-- Add more rows for each tayangan -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Film Table -->
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Film</h5>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Judul</th>
+            <th>Sinopsis</th>
+            <th>Trailer URL</th>
+            <th>Tanggal Rilis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Judul Film 1</td>
+            <td>Sinopsis dari Judul Film 1</td>
+            <td><a href="#">Trailer Link</a></td>
+            <td>01/01/2024</td>
+          </tr>
+          <!-- Repeat the above row structure for each film -->
+          <!-- Add more rows for each film -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Series</h5>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Judul</th>
+            <th>Sinopsis</th>
+            <th>Trailer URL</th>
+            <th>Tanggal Rilis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Judul Series 1</td>
+            <td>Sinopsis dari Judul Series 1</td>
+            <td><a href="#">Trailer Link</a></td>
+            <td>01/01/2024</td>
+          </tr>
+          <!-- Repeat the above row structure for each series -->
+          <!-- Add more rows for each series -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+
+
+{% endblock content %}

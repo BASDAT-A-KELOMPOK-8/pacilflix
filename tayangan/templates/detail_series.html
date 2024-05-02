@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<title>Halaman Series</title>
+  <!-- Bootstrap CSS -->
+  <style>
+    body {
+      background-color: #15202b; /* Dark blue */
+      color: #ffffff; /* White text */
+    }
+    .container {
+      margin-top: 50px;
+    }
+    .card {
+      background-color: #1e2a38; /* Darker blue */
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .card-header {
+      background-color: #007bff; /* Light blue */
+      color: #ffffff; /* White text */
+      border-bottom: none;
+    }
+    .card-body {
+      padding: 20px;
+    }
+    .card-title {
+      color: #ffffff; /* White text */
+    }
+    .card-text {
+      color: #cccccc; /* Light gray text */
+    }
+    .btn-primary {
+      background-color: #007bff; /* Light blue */
+      border-color: #007bff; /* Light blue border */
+    }
+    .btn-primary:hover {
+      background-color: #0056b3; /* Darker blue on hover */
+      border-color: #0056b3; /* Darker blue border on hover */
+    }
+    /* Center the heading */
+    .center-heading {
+      text-align: center;
+    }
+    /* Improve text readability */
+    table {
+      color: #ffffff; /* White text */
+    }
+    th, td{
+        color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+<h1 class="center-heading">Halaman Series</h1>
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">The Witcher</h5>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td>Judul:</td>
+            <td>The Witcher</td>
+          </tr>
+          <tr>
+            <td>Episode:</td>
+            <td>
+              <ul>
+                <li><a href="#">Episode 1</a></li>
+                <li><a href="#">Episode 2</a></li>
+                <li><a href="#">Episode 3</a></li>
+                <!-- Add more episode links -->
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>Tombol Unduh Tayangan:</td>
+            <td><button type="button" class="btn btn-primary">Unduh Tayangan</button></td>
+          </tr>
+          <tr>
+            <td>Tombol Favorit Tayangan:</td>
+            <td><button type="button" class="btn btn-primary">Favorit</button></td>
+          </tr>
+          <tr>
+            <td>Total View:</td>
+            <td>50,000,000</td>
+          </tr>
+          <tr>
+            <td>Rating Rata-Rata:</td>
+            <td>8.5</td>
+          </tr>
+          <tr>
+            <td>Sinopsis:</td>
+            <td>The Witcher is an American fantasy drama series produced by Lauren Schmidt Hissrich. It is based on the book series of the same name by Polish writer Andrzej Sapkowski.</td>
+          </tr>
+          <tr>
+            <td>Genre:</td>
+            <td>
+              <ul>
+                <li>Fantasy</li>
+                <li>Action</li>
+                <li>Adventure</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>Asal Negara:</td>
+            <td>United States</td>
+          </tr>
+          <tr>
+            <td>Pemain:</td>
+            <td>
+              <ul>
+                <li>Henry Cavill</li>
+                <li>Anya Chalotra</li>
+                <li>Frehya Allan</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>Penulis Skenario:</td>
+            <td>
+              <ul>
+                <li>Lauren Schmidt Hissrich</li>
+                <li>Alexandra McNally</li>
+                <li>Declan de Barra</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>Sutradara:</td>
+            <td>Alik Sakharov</td>
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <h5 class="card-title">Ulasan</h5>
+        <p class="card-text">The Witcher is an amazing series with captivating characters and a gripping storyline. Henry Cavill's portrayal of Geralt of Rivia is superb, and the action scenes are incredibly well-done. I can't wait for the next season!</p>
+        <p class="card-text">I absolutely love The Witcher series! The world-building and character development are top-notch, and the CGI effects are impressive. Definitely one of the best fantasy series out there.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+
+{% endblock content %}
