@@ -16,9 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+
 from authentication.views import register 
 from authentication.views import login_user, logout_user
 from authentication.views import show_main
+
+from daftar_favorit.views import show_favorites
+# from daftar_unduhan import 
 
 app_name = 'authentication'
 urlpatterns = [
@@ -27,5 +31,6 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('login/', login_user, name='login'), 
     path('logout/', logout_user, name='logout'),
-    
+
+    path('favorites/', show_favorites, name='favorites'),
 ]
