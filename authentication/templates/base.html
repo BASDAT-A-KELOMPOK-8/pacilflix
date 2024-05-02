@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>PacilFlix - A8</title>
-    <link
-        rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    >
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="fonts" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> 
 </head>
 <body>
     <style>
@@ -24,23 +27,28 @@
             color: #cccccc; /* Warna saat hover, bisa disesuaikan */
         }
     </style>
-        <nav class="navbar navbar-expand-lg navbar-light navbar-custom"> 
-            <a class="navbar-brand" href="/">PacilFlix - A8</a> 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/trailers" style="color: white;">Trailer Tayangan</a>
-                        </li>       
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="/favorites" style="color: white;">Favorites</a>
-                        </li> 
-                </ul>
-            </div>
-        </nav>
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom shadow"> 
+        <a class="navbar-brand" href="/">PacilFlix - A8</a> 
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/trailers" style="color: white;">Trailer Tayangan</a>
+                    </li>       
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/favorites" style="color: white;">Favorites</a>
+                    </li> 
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/downloads" style="color: white;">Downloads</a>
+                    </li> 
+            </ul>
+        </div>
+    </nav>
 {% block content %}
 
 {% endblock content %}

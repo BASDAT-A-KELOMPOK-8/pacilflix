@@ -22,7 +22,8 @@ from authentication.views import login_user, logout_user
 from authentication.views import show_main
 
 from daftar_favorit.views import show_favorites
-# from daftar_unduhan import 
+# from daftar_favorit.views import delete_favorite
+from daftar_unduhan.views import show_downloads
 
 app_name = 'authentication'
 urlpatterns = [
@@ -33,4 +34,6 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
 
     path('favorites/', show_favorites, name='favorites'),
+    # path('<str:username>/favorites/delete/', delete_favorite, name='delete_favorite'),
+    path('downloads/', show_downloads, name='downloads'),
 ]
