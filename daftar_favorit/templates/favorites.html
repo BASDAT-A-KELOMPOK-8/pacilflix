@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Favorites</title>
+{% endblock meta %}
+
+{% block content %}
+    <div>
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                padding: 8px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+        </style>
+
+        <h1>Favorites</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Judul</th>
+                    <th>Waktu ditambahkan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Add your favorite items dynamically here -->
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}
