@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subscription</title>
+
+<style>
+    .navbar-custom {
+    background-color: #1E90FF; 
+    }
+
+    .navbar-custom .nav-link,
+    .navbar-custom .navbar-brand {
+        color: white; 
+    }
+
+    .navbar-custom .nav-link:hover,
+    .navbar-custom .navbar-brand:hover {
+        color: #000000; 
+    }
+
+</style>
+<nav class="navbar navbar-expand-lg navbar-light navbar-custom"> 
+    <a class="navbar-brand" href="/">PacilFlix - A8</a> 
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+             
+            </li>       
+        </ul>
+    </div>
+</nav>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h1, h2 {
+    text-align: center;
+    color: #333;
+  }
+
+  .subscription {
+    margin-bottom: 30px;
+  }
+
+  .subscription-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .transaction-history {
+    margin-top: 30px;
+  }
+
+  .transaction-history table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .transaction-history th, .transaction-history td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+
+  .transaction-history th {
+    background-color: #f2f2f2;
+  }
+
+  .transaction-history td:last-child {
+    text-align: center;
+  }
+</style>
+
+</head>
+<body>
+
+<div class="container">
+  <h1>Subscription Management</h1>
+
+  <!-- Active subscription -->
+  <div class="subscription">
+    <h2>Active Subscription</h2>
+    <div class="subscription-header">
+      <div>
+        <h3>Standard Plan</h3>
+        <p>Price: $9.99/month</p>
+        <p>Resolution: HD</p>
+        <p>Supported Devices: Smart TV, Smartphone, Tablet</p>
+      </div>
+      <div>
+        <p>Start Date: 2024-04-01</p>
+        <p>End Date: 2024-05-01</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="subscription">
+    <h2>Recommended Packages</h2>
+    <div class="subscription-header">
+      <div>
+        <h3>Premium Plan</h3>
+        <p>Price: $14.99/month</p>
+        <p>Resolution: Ultra HD</p>
+        <p>Supported Devices: Smart TV, Smartphone, Tablet, PC</p>
+      </div>
+      <div>
+        <button>Beli / Checkout</button>
+      </div>
+    </div>
+    <div class="subscription-header">
+        <div>
+          <h3>Exclusive Plan</h3>
+          <p>Price: $19.99/month</p>
+          <p>Resolution: 4k, 8k</p>
+          <p>Supported Devices: Smart TV, Smartphone, Tablet, PC</p>
+        </div>
+        <div>
+          <button>Beli / Checkout</button>
+        </div>
+      </div>
+  </div>
+
+  <div class="transaction-history">
+    <h2>Transaction History</h2>
+    <table>
+      <tr>
+        <th>Package Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Payment Method</th>
+        <th>Transaction Date</th>
+        <th>Total Payment</th>
+      </tr>
+      <tr>
+        <td>Standard Plan</td>
+        <td>2024-03-01</td>
+        <td>2024-04-01</td>
+        <td>Credit Card</td>
+        <td>2024-03-01</td>
+        <td>$9.99</td>
+      </tr>
+      <tr>
+        <td>Standard Plan</td>
+        <td>2024-02-01</td>
+        <td>2024-03-01</td>
+        <td>PayPal</td>
+        <td>2024-02-01</td>
+        <td>$9.99</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout Package</title>
+
+<style>
+    .navbar-custom {
+    background-color: #1E90FF; 
+    }
+
+    .navbar-custom .nav-link,
+    .navbar-custom .navbar-brand {
+        color: white; 
+    }
+
+    .navbar-custom .nav-link:hover,
+    .navbar-custom .navbar-brand:hover {
+        color: #000000; 
+    }
+
+</style>
+<nav class="navbar navbar-expand-lg navbar-light navbar-custom"> 
+    <a class="navbar-brand" href="/">PacilFlix - A8</a> 
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+             
+            </li>       
+        </ul>
+    </div>
+</nav>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h1, h2 {
+    text-align: center;
+    color: #333;
+  }
+
+  .checkout-info {
+    margin-bottom: 30px;
+  }
+
+  .payment-method {
+    margin-top: 20px;
+  }
+
+  select {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Checkout Package</h1>
+
+  <div class="checkout-info">
+    <h2>Package Information</h2>
+    <p><strong>Name:</strong> Premium Plan</p>
+    <p><strong>Price:</strong> $14.99/month</p>
+    <p><strong>Resolution:</strong> Ultra HD</p>
+    <p><strong>Supported Devices:</strong> Smart TV, Smartphone, Tablet, PC</p>
+  </div>
+
+  <div class="payment-method">
+    <h2>Payment Method</h2>
+    <label for="payment">Select Payment Method:</label>
+    <select id="payment">
+      <option value="transfer-bank">Transfer Bank</option>
+      <option value="kartu-kredit">Kartu Kredit</option>
+      <option value="ewallet">E-Wallet</option>
+    </select>
+  </div>
+
+  <div class="checkout-button" style="text-align: center; margin-top: 20px;">
+    <button style="padding: 10px 20px; font-size: 16px; border-radius: 5px; background-color: #007bff; color: #fff; border: none;">Checkout</button>
+  </div>
+</div>
+
+</body>
+</html>
