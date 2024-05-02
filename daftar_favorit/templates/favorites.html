@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Favorites</title>
+{% endblock meta %}
+
+{% block content %}
+    <div>
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                padding: 8px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+            h1 {
+                text-align: center;
+            }
+            .icon-add {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                z-index: 9999; 
+                font-size: 70px;
+                color: green;
+                
+                margin-right: 2%;
+                margin-bottom: 2%;
+            }
+        </style>
+        
+        <div class = "container justify-content-center align-items-center my-5">
+
+            <div class="pt-3 pb-5">
+                <h1>Favorites</h1>
+            </div>
+
+            <div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Judul</th>
+                            <th>Waktu</th>
+                            <th></th>
+                        </tr>
+                    </thead>   
+                    <tbody>
+                        <tr>
+                            <td>
+                                <h4>Possession</h4>
+                            </td>
+
+                            <td>2024-05-03 10:30:15</td>
+                            <td>
+                                <a href="#" style="color: red; font-size: 30px;">
+                                    <ion-icon name="close-circle"></ion-icon>
+                                </a>                               
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>
+                                    Dancer In The Dark
+                                </h4>
+                            </td>
+                            <td>2024-05-03 10:30:15</td>
+                            <td>
+                                <a href="#" style="color: red; font-size: 30px;">
+                                    <ion-icon name="close-circle"></ion-icon>
+                                </a>                               
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>
+                                    Suster Ngesot
+                                </h4>
+                            </td>
+                            <td>2024-05-03 10:30:15</td>
+                            <td>
+                                <a href="#" style="color: red; font-size: 30px;">
+                                    <ion-icon name="close-circle"></ion-icon>
+                                </a>                               
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <a href="#">
+            <ion-icon name="add-circle" class="icon-add"> </ion-icon>
+        </a>
+
+    </div>
+{% endblock content %}
