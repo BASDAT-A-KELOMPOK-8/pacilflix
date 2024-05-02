@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'daftar_unduhan',
     'langganan',
     'daftar_kontributor',
+    'tayangan',
 ]
 
 MIDDLEWARE = [

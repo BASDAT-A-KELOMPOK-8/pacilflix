@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<title>Halaman Film</title>
+  <!-- Bootstrap CSS -->
+  <style>
+    body {
+      background-color: #15202b; /* Dark blue */
+      color: #ffffff; /* White text */
+    }
+    .container {
+      margin-top: 50px;
+    }
+    .card {
+      background-color: #1e2a38; /* Darker blue */
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .card-header {
+      background-color: #007bff; /* Light blue */
+      color: #ffffff; /* White text */
+      border-bottom: none;
+    }
+    .card-body {
+      padding: 20px;
+    }
+    .card-title {
+      color: #ffffff; /* White text */
+    }
+    .card-text {
+      color: #cccccc; /* Light gray text */
+    }
+    .btn-primary {
+      background-color: #007bff; /* Light blue */
+      border-color: #007bff; /* Light blue border */
+    }
+    .btn-primary:hover {
+      background-color: #0056b3; /* Darker blue on hover */
+      border-color: #0056b3; /* Darker blue border on hover */
+    }
+    /* Center the heading */
+    .center-heading {
+      text-align: center;
+    }
+    /* Improve text readability */
+    table {
+      color: #ffffff; /* White text */
+    }
+    th, td{
+        color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+<h1 class="center-heading">Halaman Film</h1>
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Avengers: Endgame</h5>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td>Judul:</td>
+            <td>Avengers: Endgame</td>
+          </tr>
+          <tr>
+            <td>Tombol Tonton:</td>
+            <td><button type="button" class="btn btn-primary">Tonton</button></td>
+          </tr>
+          <tr>
+            <td>Tombol Unduh Tayangan:</td>
+            <td><button type="button" class="btn btn-primary">Unduh Tayangan</button></td>
+          </tr>
+          <tr>
+            <td>Tombol Favorit Tayangan:</td>
+            <td><button type="button" class="btn btn-primary">Favorit</button></td>
+          </tr>
+          <tr>
+            <td>Total View:</td>
+            <td>10,000,000</td>
+          </tr>
+          <tr>
+            <td>Rating Rata-Rata:</td>
+            <td>9.0</td>
+          </tr>
+          <tr>
+            <td>Sinopsis:</td>
+            <td>The Avengers and their allies must be willing to sacrifice all in an attempt to defeat the powerful Thanos before his blitz of devastation and ruin puts an end to the universe.</td>
+          </tr>
+          <tr>
+            <td>Durasi Film:</td>
+            <td>3 jam 1 menit</td>
+          </tr>
+          <tr>
+            <td>Tanggal Rilis Film:</td>
+            <td>26 April 2019</td>
+          </tr>
+          <tr>
+            <td>URL Film:</td>
+            <td><a href="#">www.avengers-endgame.com</a></td>
+          </tr>
+          <tr>
+            <td>Genre:</td>
+            <td>Action, Adventure, Sci-Fi</td>
+          </tr>
+          <tr>
+            <td>Asal Negara:</td>
+            <td>United States</td>
+          </tr>
+          <tr>
+            <td>Pemain:</td>
+            <td>Robert Downey Jr., Chris Evans, Mark Ruffalo</td>
+          </tr>
+          <tr>
+            <td>Penulis Skenario:</td>
+            <td>Christopher Markus, Stephen McFeely</td>
+          </tr>
+          <tr>
+            <td>Sutradara:</td>
+            <td>Anthony Russo, Joe Russo</td>
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <h5 class="card-title">Ulasan</h5>
+        <form>
+          <div class="form-group">
+            <label for="reviewInput">Deskripsi Ulasan:</label>
+            <input type="text" class="form-control" id="reviewInput" placeholder="Masukkan deskripsi ulasan">
+          </div>
+          <div class="form-group">
+            <label for="ratingInput">Rating:</label>
+            <input type="number" class="form-control" id="ratingInput" placeholder="Masukkan rating">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <h6>Daftar Ulasan:</h6>
+        <ul>
+          <li>4 : Filmnya bagus tapi agak banyak masalah aja yang muncul</li>
+          <li>3 : Orang disebelah waktu nonton malah pakai headset denger lagu kenceng-kenceng jadi ngeganggu nonton filmnya :/</li>
+          <!-- Add more reviews -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+
+{% endblock content %}
