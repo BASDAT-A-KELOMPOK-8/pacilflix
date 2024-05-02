@@ -1,16 +1,14 @@
 from faker import Faker
+from datetime import datetime, timedelta
 
-from faker import Faker
-
-# Create a Faker instance
 fake = Faker()
 
 
 
 for i in range(20):
+    # Generate a datetime 5 years before the current year
+    start_date = datetime.now() - timedelta(days=100)  # Subtract 5 years worth of days
+    end_date = datetime.now()
+    datetime_data = fake.date_time_between(start_date=start_date, end_date=end_date).strftime('%Y-%m-%d %H:%M:%S')
 
-        # Generate a fake date in the format 'YYYY-MM-DD'
-    fake_date = fake.date_between(start_date='-10y', end_date='-5y')  # Generate a date within the last 5 years until today
-    fake_date_str = fake_date.strftime('%Y-%m-%d')  # Convert the date object to a string in the desired format
-
-    print(fake_date_str)
+    print(datetime_data)
