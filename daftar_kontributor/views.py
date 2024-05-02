@@ -1,3 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
+def show_contributors(request):
+    context = {}
+    return render(request, "contributors.html", context)

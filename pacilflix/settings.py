@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'authentication',
     'daftar_favorit',
     'daftar_unduhan',
+    'langganan',
+    'daftar_kontributor',
 ]
 
 MIDDLEWARE = [

@@ -1,3 +1,9 @@
 from django.shortcuts import render
 
-# Create your views here.
+def show_subscription(request):
+    context = {}
+    return render(request, "subscription.html", context)
+
+def show_checkout(request):
+    context = {}
+    return render(request, "checkout.html", context)
