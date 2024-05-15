@@ -5,66 +5,6 @@
 {% endblock meta %}
 
 {% block content %}
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  .container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-
-  h1 {
-    text-align: center;
-    color: #333;
-  }
-
-  label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-
-  select {
-    padding: 8px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 100%;
-    margin-bottom: 20px;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  #kontributor-list li {
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-  }
-
-  li h2 {
-    margin-top: 0;
-    color: #333;
-  }
-
-  p {
-    margin: 5px 0;
-  }
-</style>
-
 <div class="container">
   <h1>Daftar Kontributor Film</h1>
 
@@ -73,28 +13,49 @@
     <option value="semua">Semua</option>
     <option value="pemain">Pemain</option>
     <option value="sutradara">Sutradara</option>
-    <option value="penulis">Penulis Skenario</option>
+    <option value="penulis skenario">Penulis Skenario</option>
   </select>
 
   <ul id="kontributor-list">
-    <li>
-      <h2>Nama: John Doe</h2>
-      <p>Tipe: Pemain</p>
-      <p>Jenis Kelamin: Laki-laki</p>
-      <p>Kewarganegaraan: Amerika Serikat</p>
-    </li>
-    <li>
-      <h2>Nama: Jane Smith</h2>
-      <p>Tipe: Sutradara</p>
-      <p>Jenis Kelamin: Perempuan</p>
-      <p>Kewarganegaraan: Kanada</p>
-    </li>
-    <li>
-      <h2>Nama: Michael Johnson</h2>
-      <p>Tipe: Penulis Skenario</p>
-      <p>Jenis Kelamin: Laki-laki</p>
-      <p>Kewarganegaraan: Inggris</p>
-    </li>
+    {% for contributor in contributors %}
+      <li>
+          <h2>Nama: {{ contributor.0 }}</h2>
+          <p>Tipe: {{ contributor.3 }}</p>
+          <p>
+              Jenis Kelamin:
+              {% if contributor.1 == 0 %}
+                  Laki-laki
+              {% elif contributor.1 == 1 %}
+                  Perempuan
+              {% else %}
+                  Tidak Diketahui
+              {% endif %}
+          </p>
+          <p>Kewarganegaraan: {{ contributor.2 }}</p>
+      </li>
+    {% endfor %}
   </ul>
 </div>
+
+<script>
+  document.getElementById('filter').addEventListener('change', function() {
+    var filterValue = "tipe: " + this.value.toLowerCase();
+    var kontributorList = document.getElementById('kontributor-list').getElementsByTagName('li');
+
+    for (var i = 0; i < kontributorList.length; i++) {
+      var kontributor = kontributorList[i];
+      var kontributorType = kontributor.querySelector('p:nth-of-type(1)').textContent.trim().toLowerCase();
+
+      console.log(filterValue + "pelter valu")
+      console.log(kontributorType + "kontyp")
+
+      if (filterValue === 'tipe: semua' || kontributorType === filterValue) {
+        kontributor.style.display = 'block';
+      } else {
+        kontributor.style.display = 'none';
+      }
+    }
+  })
+</script>
+
 {% endblock %}
