@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from os import getenv
 from pathlib import Path
+from os import getenv
+from dotenv import load_dotenv
+
+load_dotenv()
 from dotenv import load_dotenv
 
 # Load variables from a .env file, if present
@@ -86,13 +90,17 @@ WSGI_APPLICATION = 'pacilflix.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+
+# print(getenv("PGDATABASE"))
+# print("x"*100)
+
 DATABASES = {
+    'default': {
 # # default for localhost 
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
-    'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': getenv('PGDATABASE'),
         'USER': getenv('PGUSER'),
