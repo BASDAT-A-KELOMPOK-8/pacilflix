@@ -9,6 +9,19 @@ def show_favorites(request):
     return render(request, "favorites.html", context)
 
 
+def daftar_favorit(request):
+    if not is_authenticated(request):
+        return render(request, '404.html')
+    
+    username = get_current_user(request)['username']
+    fetch_data = query_select(f"select judul, timestamp from daftar_favorit where username = '{nama}'")
+    daftar_favorit = [{'judul': row[0], 'timestamp': row[1]} for row in fetch_data]
+
+    context = {
+        'daftar_favorit': daftar_favorit,
+    }
+    return render(request, "daftar_favorit.html", context)
+
 # @csrf_exempt
 # def delete_favorite(request, username):
 #     if request.method == 'DELETE':
