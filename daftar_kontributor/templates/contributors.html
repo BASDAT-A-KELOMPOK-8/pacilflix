@@ -8,7 +8,7 @@
 <div class="container">
   <h1>Daftar Kontributor Film</h1>
 
-  <label for="filter">Filter berdasarkan tipe:</label>
+  <label for="filter">Kategori:</label>
   <select id="filter">
     <option value="semua">Semua</option>
     <option value="pemain">Pemain</option>
@@ -56,6 +56,37 @@
       }
     }
   })
+  function applyFilter() {
+    var filterValue = "tipe: " + document.getElementById('filter').value.toLowerCase();
+    var kontributorList = document.getElementById('kontributor-list').getElementsByTagName('li');
+
+    for (var i = 0; i < kontributorList.length; i++) {
+      var kontributor = kontributorList[i];
+      var kontributorType = kontributor.querySelector('p:nth-of-type(1)').textContent.trim().toLowerCase();
+
+      if (filterValue === 'tipe: semua' || kontributorType === filterValue) {
+        kontributor.style.display = 'block';
+      } else {
+        kontributor.style.display = 'none';
+      }
+    }
+  }
+
+  // Event listener untuk perubahan pada dropdown filter
+  document.getElementById('filter').addEventListener('change', function() {
+    applyFilter(); // Terapkan filter saat dropdown berubah
+  });
+
+  // Terapkan filter saat halaman dimuat ulang
+  window.addEventListener('load', function() {
+    applyFilter();
+
+    // Set opsi filter sesuai dengan filter yang diterapkan sebelumnya
+    var selectedFilter = localStorage.getItem('selectedFilter');
+    if (selectedFilter) {
+      document.getElementById('filter').value = selectedFilter;
+    }
+  });
 </script>
 
 {% endblock %}
