@@ -21,7 +21,7 @@ from authentication.views import register
 from authentication.views import login_user, logout_user
 from authentication.views import show_main
 
-from daftar_favorit.views import show_favorites
+from daftar_favorit.views import delete_favorite, show_favorites
 # from daftar_favorit.views import delete_favorite
 from daftar_unduhan.views import show_downloads
 
@@ -33,7 +33,6 @@ from tayangan.views import tayangan_display, tayangan_detail, detail_series, det
 
 app_name = 'authentication'
 urlpatterns = [
-    path('', elements_list, name='elements_list'),
     path('', show_main, name='show_main'),
     path('admin/', admin.site.urls),
     path('register/', register, name='register'),
@@ -41,6 +40,7 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
 
     path('favorites/', show_favorites, name='favorites'),
+    path('favorites/delete/', delete_favorite, name='delete_favorite'),
     # path('<str:username>/favorites/delete/', delete_favorite, name='delete_favorite'),
     path('downloads/', show_downloads, name='downloads'),
 
