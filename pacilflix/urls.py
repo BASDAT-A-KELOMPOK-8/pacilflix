@@ -43,7 +43,7 @@ urlpatterns = [
     path('downloads/', show_downloads, name='downloads'),
 
     path('subscription/', show_subscription, name='subscription'),
-    path('checkout/', show_checkout, name='checkout'),
+    path('checkout/<str:package_name>/', show_checkout, name='checkout'),
     path('contributors/', show_contributors, name='contributors'),
 
     path('tayangan/', tayangan_display, name='tayangan'),
