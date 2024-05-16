@@ -25,6 +25,7 @@ from daftar_favorit.views import show_favorites
 # from daftar_favorit.views import delete_favorite
 from daftar_unduhan.views import show_downloads
 
+from elements.views import elements_list
 from langganan.views import show_subscription, show_checkout
 from daftar_kontributor.views import show_contributors
 
@@ -32,6 +33,7 @@ from tayangan.views import tayangan_display, tayangan_detail, detail_series, det
 
 app_name = 'authentication'
 urlpatterns = [
+    path('', elements_list, name='elements_list'),
     path('', show_main, name='show_main'),
     path('admin/', admin.site.urls),
     path('register/', register, name='register'),
