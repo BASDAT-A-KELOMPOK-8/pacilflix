@@ -70,47 +70,56 @@
 <div class="container">
   <h1>Subscription Management</h1>
 
+    <!-- User selection -->
+    <div class="subscription">
+      <h2>Select User</h2>
+      <form method="GET">
+        <select name="username" onchange="this.form.submit()">
+          <option value="">--Select User--</option>
+          {% for user in users %}
+          <option value="{{ user.0 }}" {% if selected_user == user.0 %}selected{% endif %}>{{ user.0 }}</option>
+          {% endfor %}
+        </select>
+      </form>
+    </div>
+
   <!-- Active subscription -->
+  {% if selected_user %}
+  {% if active_subscription %}
   <div class="subscription">
     <h2>Active Subscription</h2>
     <div class="subscription-header">
       <div>
-        <h3>Standard Plan</h3>
-        <p>Price: $9.99/month</p>
-        <p>Resolution: HD</p>
-        <p>Supported Devices: Smart TV, Smartphone, Tablet</p>
+        <h3>{{ active_subscription.0 }}</h3>
+        <p>Price: ${{ active_subscription.1 }}/month</p>
+        <p>Resolution: {{ active_subscription.2 }}</p>
       </div>
       <div>
-        <p>Start Date: 2024-04-01</p>
-        <p>End Date: 2024-05-01</p>
+        <p>Start Date: {{ active_subscription.3 }}</p>
+        <p>End Date: {{ active_subscription.4 }}</p>
       </div>
     </div>
   </div>
+  {% else %}
+  <p>Cek paket-paket menarik kita dan mulai berlangganan! -minflix</p>
+  {% endif %}
+  {% endif %}
 
+  <!-- Recommended Packages -->
   <div class="subscription">
     <h2>Recommended Packages</h2>
+    {% for package in recommended_packages %}
     <div class="subscription-header">
       <div>
-        <h3>Premium Plan</h3>
-        <p>Price: $14.99/month</p>
-        <p>Resolution: Ultra HD</p>
-        <p>Supported Devices: Smart TV, Smartphone, Tablet, PC</p>
+        <h3>{{ package.0 }}</h3>
+        <p>Price: ${{ package.1 }}/month</p>
+        <p>Resolution: {{ package.2 }}</p>
       </div>
       <div>
-        <button>Beli / Checkout</button>
+        <a href="{% url 'checkout' package_name=package.0 %}"><button>Beli / Checkout</button></a>
       </div>
     </div>
-    <div class="subscription-header">
-        <div>
-          <h3>Exclusive Plan</h3>
-          <p>Price: $19.99/month</p>
-          <p>Resolution: 4k, 8k</p>
-          <p>Supported Devices: Smart TV, Smartphone, Tablet, PC</p>
-        </div>
-        <div>
-          <button>Beli / Checkout</button>
-        </div>
-      </div>
+    {% endfor %}
   </div>
 
   <div class="transaction-history">
@@ -124,23 +133,18 @@
         <th>Transaction Date</th>
         <th>Total Payment</th>
       </tr>
+      {% for transaction in transaction_history %}
       <tr>
-        <td>Standard Plan</td>
-        <td>2024-03-01</td>
-        <td>2024-04-01</td>
-        <td>Credit Card</td>
-        <td>2024-03-01</td>
-        <td>$9.99</td>
+        <td>{{ transaction.0 }}</td>
+        <td>{{ transaction.1 }}</td>
+        <td>{{ transaction.2 }}</td>
+        <td>{{ transaction.3 }}</td>
+        <td>{{ transaction.4 }}</td>
+        <td>${{ transaction.5 }}</td>
       </tr>
-      <tr>
-        <td>Standard Plan</td>
-        <td>2024-02-01</td>
-        <td>2024-03-01</td>
-        <td>PayPal</td>
-        <td>2024-02-01</td>
-        <td>$9.99</td>
-      </tr>
+      {% endfor %}
     </table>
   </div>
+
 </div>
 {% endblock content %}

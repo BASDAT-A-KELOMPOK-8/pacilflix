@@ -45,15 +45,15 @@
 </style>
 
 <div class="container">
-  <h1>Checkout Package</h1>
+  <h1>Checkout Package {{user}}</h1>
 
   <div class="checkout-info">
     <h2>Package Information</h2>
-    <p><strong>Name:</strong> Premium Plan</p>
-    <p><strong>Price:</strong> $14.99/month</p>
-    <p><strong>Resolution:</strong> Ultra HD</p>
-    <p><strong>Supported Devices:</strong> Smart TV, Smartphone, Tablet, PC</p>
+    <p><strong>Name:</strong> {{ package_info.0 }}</p>
+    <p><strong>Price:</strong> ${{ package_info.1 }}/month</p>
+    <p><strong>Resolution:</strong> {{ package_info.2 }}</p>
   </div>
+
 
   <div class="payment-method">
     <h2>Payment Method</h2>
