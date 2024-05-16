@@ -5,6 +5,13 @@
 {% endblock meta %}
 
 {% block content %}
+
+    <style>
+        .favorites-link {
+            color: white !important; /* Use !important to override any other styles */
+        }
+    </style>
+
     <div>
         <style>
             table {
@@ -57,7 +64,7 @@
                             <td>{{ favorite.1 }}</td>
 
                             <td>
-                                <a href="delete" style="color: red; font-size: 30px;">
+                                <a href="#" onclick="deleteFavorite('{{ forloop.counter }}')" style="color: red; font-size: 30px;">
                                     <ion-icon name="close-circle"></ion-icon>
                                 </a>                               
                             </td>
@@ -74,4 +81,31 @@
         </a>
 
     </div>
+
+    <script>
+        async function deleteFavorite(rowId) {
+            try {
+                const row = document.getElementById(`favorite-${rowId}`);
+                const judul = row.querySelector('h4').textContent;
+
+                const response = await fetch('/favorites/delete/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'  // Include CSRF token for security
+                    },
+                    body: JSON.stringify({ 'judul': judul })
+                });
+
+                if (response.ok) {
+                    row.remove();
+                } else {
+                    console.error('Failed to delete the favorite');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+
 {% endblock content %}

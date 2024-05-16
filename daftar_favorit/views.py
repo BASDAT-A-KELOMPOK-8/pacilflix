@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
@@ -15,6 +16,8 @@ def show_favorites(request):
             WHERE username = %s \
             ORDER BY timestamp;", [username])
         favorites = cursor.fetchall()
+    cursor.close()
+    connection.close()
     context = {
         'favorites' : favorites
     }
@@ -22,17 +25,26 @@ def show_favorites(request):
 
 
 # @login_required
-def delete_favorite(request, username):
+def delete_favorite(request):
     if request.method == 'POST':
-        judul = request.POST.get('judul')  # Get the title to be deleted from the POST data
-        username = request.user.username  # Get the current logged-in user's username
+        # username = get_current_user(request)['username']
+        username = 'alice'
+        judul = request.POST.get('judul')  
+        timestamp = request.POST.get('timestamp')  
 
-        with connection.cursor() as cursor:
-            cursor.execute("SET search_path TO public")
-            cursor.execute("DELETE FROM daftar_favorit \
-                            WHERE username = %s AND judul = %s;", [username, judul])
-        
-        return JsonResponse({'status': 'success'}, status=200)
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("SET search_path TO public;")
+                cursor.execute("DELETE FROM daftar_favorit \
+                                WHERE judul = %s and timestamp >= '{datetime_convert(timestamp)}00' and \
+                               timestamp <= %s and \
+                               username = %s", [judul, timestamp, username])
+                cursor.close()
+                connection.close()
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e).split("\n")[0]})
     
-    return JsonResponse({'status': 'fail', 'message': 'Invalid request method'}, status=400)
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
