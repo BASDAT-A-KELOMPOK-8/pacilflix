@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-from pathlib import Path
 from os import getenv
+from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -31,6 +31,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = "None"
+SESSION_COOKIE_SAMESITE = "None"
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
 
 # Application definition
 
@@ -48,6 +63,7 @@ INSTALLED_APPS = [
     "langganan",
     "daftar_kontributor",
     "tayangan",
+    "elements",
 ]
 
 MIDDLEWARE = [
@@ -67,7 +83,6 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [],
         "APP_DIRS": True,
-        "DIRS": [BASE_DIR / "templates"],
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -85,19 +100,24 @@ WSGI_APPLICATION = "pacilflix.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+
+# print(getenv("PGDATABASE"))
+# print("x"*100)
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": getenv("PGDATABASE"),
         "USER": getenv("PGUSER"),
         "PASSWORD": getenv("PGPASSWORD"),
-        "HOST": "ep-lively-boat-a5ho0hit.us-east-2.aws.neon.tech",
+        "HOST": getenv("PGHOST"),
         "PORT": getenv("PGPORT", 5432),
         "OPTIONS": {
             "sslmode": "require",
         },
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -117,6 +137,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1", "http://localhost"]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
