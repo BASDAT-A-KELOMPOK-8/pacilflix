@@ -40,26 +40,28 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-        {% if request.COOKIES.is_authenticated %}
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="/tayangan">Daftar Tayangan</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/contributors">Daftar Kontributor</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/favorites">Kelola Daftar Favorit</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/downloads">Kelola Daftar Unduhan</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/subscription">Kelola Langganan</a>
-            </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            {% if request.COOKIES.is_authenticated %}
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/tayangan">Daftar Tayangan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contributors">Daftar Kontributor</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link favorites-link" href="/favorites">Kelola Daftar Favorit</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link downloads-link" href="/downloads">Kelola Daftar Unduhan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/subscription">Kelola Langganan</a>
+                </li>
+            </ul>
+        </div>
+        
+        <ul class="navbar-nav ml-auto"> <!-- Moved logout button to a separate list -->
             <li class="nav-item">
                 <a href="/logout/" class="btn btn-danger">  
                     Logout
