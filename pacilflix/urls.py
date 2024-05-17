@@ -20,7 +20,7 @@ from django.urls import path
 from authentication.views import login, register, logout_user, register_page
 from authentication.views import show_main
 
-from daftar_favorit.views import delete_favorite, show_favorites, add_favorite_item
+from daftar_favorit.views import delete_favorite, show_favorites, add_favorite_item, show_favorites_details
 # from daftar_favorit.views import delete_favorite
 from daftar_unduhan.views import show_downloads
 
@@ -39,8 +39,9 @@ urlpatterns = [
     path('login/', login, name='login'), 
     path('logout/', logout_user, name='logout'),
 
+    path('favorites/<str:judul>/', show_favorites_details, name='favorites_details'),
     path('favorites/', show_favorites, name='favorites'),
-    path('favorites/delete/', delete_favorite, name='delete_favorite'),
+    path('favorites/delete/<str:judul>/', delete_favorite, name='delete_favorite'),
     path('downloads/', show_downloads, name='downloads'),
 
     path('subscription/', show_subscription, name='subscription'),
@@ -52,5 +53,4 @@ urlpatterns = [
     path('tayangan/detail/series/', detail_series, name='detail_series'),
     path('tayangan/detail/episode/', detail_episode, name='detail_episode'),
     path('tayangan/trailer/', daftar_trailer, name='daftar_trailer'),
-    
 ]

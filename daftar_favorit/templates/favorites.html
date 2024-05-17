@@ -6,49 +6,59 @@
 
 {% block content %}
 
+    <!-- Styles -->
     <style>
         .favorites-link {
             color: white !important; /* Use !important to override any other styles */
         }
+    
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        h1 {
+            text-align: center;
+        }
+        .icon-add {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999; 
+            font-size: 70px;
+            color: green;
+            
+            margin-right: 2%;
+            margin-bottom: 2%;
+        }
+        .delete-button {
+            background: none;
+            border: none;
+            color: red;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        .delete-button:hover {
+            color: rgb(69, 0, 0);
+        }
+        .favorite-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .favorite-button h4 {
+            margin: 0;
+        }
+        .favorite-button:hover h4 {
+            color: darkblue;
+        }
     </style>
 
     <div>
-        <style>
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            th, td {
-                padding: 8px;
-                text-align: left;
-                border-bottom: 1px solid #ddd;
-            }
-            h1 {
-                text-align: center;
-            }
-            .icon-add {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                z-index: 9999; 
-                font-size: 70px;
-                color: green;
-                
-                margin-right: 2%;
-                margin-bottom: 2%;
-            }
-            .delete-button {
-                background: none;
-                border: none;
-                color: red;
-                font-size: 30px;
-                cursor: pointer;
-            }
-            .delete-button:hover {
-                color: rgb(69, 0, 0);
-            }
-        </style>
-        
         <div class = "container justify-content-center align-items-center my-5">
 
             <div class="pt-3 pb-5">
@@ -68,15 +78,17 @@
                     <tbody>
                         <tr>
                             <td>
-                                <h4>{{ favorite.0 }}</h4>
+                                <button class="favorite-button" onclick="showFavoritesDetails(this)">
+                                    <h4>{{ favorite.0 }}</h4>
+                                </button>
                             </td>
 
                             <td>{{ favorite.1 }}</td>
 
                             <td>
-                                <button class="delete-button" onclick="deleteFavorite('{{ forloop.counter }}')" style="color: red; font-size: 30px;">
+                                <a class="delete-button" data-timestamp="{{ favorite.1 }}" href="/favorites/delete/{{ favorite.0 }}">
                                     <ion-icon name="close-circle"></ion-icon>
-                                </button>                               
+                                </a>                               
                             </td>
                         </tr>
                     </tbody>
@@ -86,49 +98,85 @@
 
         </div>
 
-        <a href="add">
-            <ion-icon name="add-circle" class="icon-add"> </ion-icon>
-        </a>
+        <button>
+            <ion-icon name="add-circle" class="icon-add" id="addFavoriteIcon"> </ion-icon>
+        </button>
+    </div>
 
+    <!-- Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Enter New Favorite List Name</h4>
+                    <button type="button" class="close" data-dismiss="modal" onclick="closeModal()">&times;</button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form id="addFavoriteForm" onsubmit="addFavorite(event)">
+                        <div class="form-group">
+                            <label for="newJudul">New Judul:</label>
+                            <input type="text" class="form-control" id="newJudul" placeholder="Enter New Judul" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
     </div>
 
     <script>
-        async function deleteFavorite(rowId) {
-            try {
-                var row = document.getElementById(rowId);
-                row.parentNode.removeChild(row);
-                
-                if (!row) {
-                    console.error('Row not found:', rowId);
-                    return;
-                }
 
-                const judulElement = row.querySelector('h4');
+        function closeModal() {
+            $('#myModal').modal('hide');
+        }
 
-                if (!judulElement) {
-                    console.error('Judul element not found in row:', rowId);
-                    return;
-                }
+        document.addEventListener("DOMContentLoaded", function() {
+            const addFavoriteIcon = document.getElementById("addFavoriteIcon");
 
-                const judul = judulElement.textContent;
+            // Add event listener to the circle icon
+            addFavoriteIcon.addEventListener("click", function(event) {
+                event.preventDefault();
 
-                const response = await fetch('/favorites/delete/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token }}'  // Include CSRF token for security
-                    },
-                    body: JSON.stringify({ 'judul': judul })
-                });
+                openModal();
+            });
+        });
 
+        // Function to open the pop-up modal
+        function openModal() {
+            document.getElementById("myModal").style.display = "block";
+        }
+
+        // Function to add favorite with user input judul
+        function addFavorite(event) {
+            event.preventDefault(); // Prevent form submission
+            const newJudul = document.getElementById("newJudul").value;
+
+            // Call the add_favorite endpoint with the newJudul parameter
+            fetch('/add_favorite/', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'  // Include CSRF token for security
+                },
+                body: JSON.stringify({ 'judul': newJudul })
+            })
+            .then(response => {
                 if (response.ok) {
-                    row.remove();
+                // If successful, close the modal and refresh the page
+                closeModal();
+                location.reload();
                 } else {
-                    console.error('Failed to delete the favorite');
+                console.error('Failed to add favorite');
                 }
-            } catch (error) {
+            })
+            .catch(error => {
                 console.error('Error:', error);
-            }
+            });
         }
     </script>
 
