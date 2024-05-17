@@ -20,7 +20,7 @@ from django.urls import path
 from authentication.views import login, register, logout_user, register_page
 from authentication.views import show_main
 
-from daftar_favorit.views import delete_favorite, show_favorites
+from daftar_favorit.views import delete_favorite, show_favorites, add_favorite_item
 # from daftar_favorit.views import delete_favorite
 from daftar_unduhan.views import show_downloads
 
@@ -41,7 +41,6 @@ urlpatterns = [
 
     path('favorites/', show_favorites, name='favorites'),
     path('favorites/delete/', delete_favorite, name='delete_favorite'),
-    # path('<str:username>/favorites/delete/', delete_favorite, name='delete_favorite'),
     path('downloads/', show_downloads, name='downloads'),
 
     path('subscription/', show_subscription, name='subscription'),
