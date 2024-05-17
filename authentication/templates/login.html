@@ -5,17 +5,13 @@
 {% endblock meta %}
 
 {% block content %}
+
 <div class="d-flex justify-content-center align-items-center" style="height: 100vh;"> 
     <div class="card" style="width: 24rem;"> 
         <div class="card-header text-center"> 
             <h1>FORM LOGIN</h1>
         </div>
         <div class="card-body"> 
-            {% if error %}
-            <div class="alert alert-danger" role="alert">
-                {{ error }}
-            </div>
-            {% endif %}
             <form method="POST">
                 {% csrf_token %}
                 <div class="row mb-3">
@@ -26,19 +22,27 @@
                         <input type="text" name="username" class="form-control" placeholder="Username">
                     </div>
                 </div>
+                
                 <div class="row mb-3">
                     <div class="col-auto">
                         <label for="password">Password: </label>
                     </div>
                     <div class="col">
-                        <input type="password" name="password" class="form-control" placeholder="Password">
+                        <input type="text" name="password" class="form-control" placeholder="Password">
                     </div>
                 </div>
-                <a href="/register" class="text-center">Belum punya akun? Daftar disini</a>
                 <div class="text-center"> 
                     <input type="submit" class="btn btn-primary" value="Login"> 
                 </div>
             </form>
+
+            {% if messages %}
+                <ul class="list-unstyled text-center"> 
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
     </div>
 </div>

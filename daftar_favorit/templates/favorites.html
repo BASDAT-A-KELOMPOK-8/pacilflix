@@ -5,13 +5,6 @@
 {% endblock meta %}
 
 {% block content %}
-
-    <style>
-        .favorites-link {
-            color: white !important; /* Use !important to override any other styles */
-        }
-    </style>
-
     <div>
         <style>
             table {
@@ -54,23 +47,46 @@
                             <th></th>
                         </tr>
                     </thead>   
-                    {% for favorite in favorites %}
                     <tbody>
                         <tr>
                             <td>
-                                <h4>{{ favorite.0 }}</h4>
+                                <h4>Possession</h4>
                             </td>
 
-                            <td>{{ favorite.1 }}</td>
-
+                            <td>2024-05-03 10:30:15</td>
                             <td>
-                                <a href="#" onclick="deleteFavorite('{{ forloop.counter }}')" style="color: red; font-size: 30px;">
+                                <a href="#" style="color: red; font-size: 30px;">
+                                    <ion-icon name="close-circle"></ion-icon>
+                                </a>                               
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>
+                                    Dancer In The Dark
+                                </h4>
+                            </td>
+                            <td>2024-05-03 10:30:15</td>
+                            <td>
+                                <a href="#" style="color: red; font-size: 30px;">
+                                    <ion-icon name="close-circle"></ion-icon>
+                                </a>                               
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>
+                                    Suster Ngesot
+                                </h4>
+                            </td>
+                            <td>2024-05-03 10:30:15</td>
+                            <td>
+                                <a href="#" style="color: red; font-size: 30px;">
                                     <ion-icon name="close-circle"></ion-icon>
                                 </a>                               
                             </td>
                         </tr>
                     </tbody>
-                    {% endfor %}
                 </table>
             </div>
 
@@ -81,31 +97,4 @@
         </a>
 
     </div>
-
-    <script>
-        async function deleteFavorite(rowId) {
-            try {
-                const row = document.getElementById(`favorite-${rowId}`);
-                const judul = row.querySelector('h4').textContent;
-
-                const response = await fetch('/favorites/delete/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token }}'  // Include CSRF token for security
-                    },
-                    body: JSON.stringify({ 'judul': judul })
-                });
-
-                if (response.ok) {
-                    row.remove();
-                } else {
-                    console.error('Failed to delete the favorite');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-    </script>
-
 {% endblock content %}

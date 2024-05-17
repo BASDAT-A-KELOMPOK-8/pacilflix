@@ -5,35 +5,28 @@
 {% endblock meta %}
 
 {% block content %}
-<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;"> 
     <div class="card" style="width: 24rem;">
-        <div class="card-header text-center">
+        <div class="card-header text-center"> 
             <h1>FORM REGISTRASI</h1>
         </div>
-        <div class="card-body">
-            {% if error_message %}
-            <div class="alert alert-danger" role="alert">
-                {{ error_message }}
-            </div>
-            {% endif %}
-            <form method="POST" action="{% url 'handle_register' %}">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" required>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
-                </div>
-                <div class="mb-3">
-                    <label for="negara" class="form-label">Negara Asal</label>
-                    <input type="text" class="form-control" id="negara" name="negara" required>
-                </div>
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">Register</button>
-                </div>
+        <div class="card-body"> 
+            <form method="POST">  
+                {% csrf_token %}  
+                {{ form.as_p }} 
+                <div class="text-center"> 
+                    <input type="submit" class="btn btn-primary" value="Daftar"/> 
+                </div>  
             </form>
+
+            {% if messages %}  
+                <ul class="list-unstyled text-center"> 
+                    {% for message in messages %}  
+                        <li>{{ message }}</li>  
+                    {% endfor %}  
+                </ul>   
+            {% endif %}
         </div>
     </div>
 </div>
