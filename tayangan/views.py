@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db import connection
+from models.tayangan import tayangan
 
 
 # Create your views here.
@@ -12,12 +13,18 @@ def get_pengguna(self):
 
         cursor.execute("SELECT * from pengguna")
         data = cursor.fetchall()
+        print(tayangan.testing())
 
     return data
 
 
 def tayangan_detail(request):
-    return render(request, "detail_tayangan.html")
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * from film")
+        data_tayangan = cursor.fetchall()
+        print(data_tayangan)
+
+    return render(data_tayangan, "detail_tayangan.html")
 
 
 def detail_series(request):
