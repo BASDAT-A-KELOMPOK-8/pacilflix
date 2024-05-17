@@ -45,7 +45,7 @@
 </style>
 
 <div class="container">
-  <h1>Checkout Package {{user}}</h1>
+  <h1>Checkout Package</h1>
 
   <div class="checkout-info">
     <h2>Package Information</h2>
@@ -54,19 +54,18 @@
     <p><strong>Resolution:</strong> {{ package_info.2 }}</p>
   </div>
 
-
   <div class="payment-method">
     <h2>Payment Method</h2>
-    <label for="payment">Select Payment Method:</label>
-    <select id="payment">
-      <option value="transfer-bank">Transfer Bank</option>
-      <option value="kartu-kredit">Kartu Kredit</option>
-      <option value="ewallet">E-Wallet</option>
-    </select>
-  </div>
-
-  <div class="checkout-button" style="text-align: center; margin-top: 20px;">
-    <button style="padding: 10px 20px; font-size: 16px; border-radius: 5px; background-color: #007bff; color: #fff; border: none;">Checkout</button>
+    <form method="post" action="{% url 'add_transaction' package_name=package_name %}">
+      {% csrf_token %}
+      <label for="payment_method">Select Payment Method:</label>
+      <select id="payment_method" name="payment_method">
+        <option value="transfer">transfer</option>
+        <option value="shopeepay">shopeepay</option>
+        <option value="gopay">gopay</option>
+      </select>
+      <button type="submit">Checkout</button>
+    </form>
   </div>
 </div>
 

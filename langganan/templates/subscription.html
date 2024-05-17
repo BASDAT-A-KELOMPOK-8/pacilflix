@@ -70,19 +70,6 @@
 <div class="container">
   <h1>Subscription Management</h1>
 
-    <!-- User selection -->
-    <div class="subscription">
-      <h2>Select User</h2>
-      <form method="GET">
-        <select name="username" onchange="this.form.submit()">
-          <option value="">--Select User--</option>
-          {% for user in users %}
-          <option value="{{ user.0 }}" {% if selected_user == user.0 %}selected{% endif %}>{{ user.0 }}</option>
-          {% endfor %}
-        </select>
-      </form>
-    </div>
-
   <!-- Active subscription -->
   {% if selected_user %}
   {% if active_subscription %}
