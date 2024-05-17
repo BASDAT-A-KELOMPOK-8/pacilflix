@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+aaaaa{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
@@ -51,10 +51,14 @@
     th, td{
         color: #ffffff;
     }
+
+    a{
+      color : white;
+    }
   </style>
 </head>
 <body>
-<h1 class="center-heading">Daftar Tayangan</h1>
+<h1 class="center-heading">Daftar Tayangan - Dashboard</h1>
 <div class="container">
     <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Search Tayangan..." aria-label="Search Tayangan" aria-describedby="button-search">
@@ -65,10 +69,16 @@
   <!-- Tayangan Terbaik Minggu Ini -->
   <div class="card">
     <div class="card-header">
-      <h4 class="mb-0">Tayangan Terbaik Minggu Ini</h4>
+      <h4 class="mb-0">Tayangan Terbaik Minggu Ini </h4>
+     
+
+
+
+
       <div class="btn-group float-right" role="group">
         <button type="button" class="btn btn-secondary">Opsi Top 10 Global (default)</button>
         <button type="button" class="btn btn-secondary">Opsi Top 10 Negara Pengguna</button>
+
       </div>
     </div>
     <div class="card-body">
@@ -85,53 +95,23 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Judul Tayangan 1</td>
-            <td>Sinopsis dari Judul Tayangan 1</td>
-            <td><a href="#">Trailer Link</a></td>
-            <td>01/01/2024</td>
-            <td>1,000,000</td>
-            <td><button type="button" class="btn btn-primary">Tayangan</button></td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Judul Tayangan 2</td>
-            <td>Sinopsis dari Judul Tayangan 2</td>
-            <td><a href="#">Trailer Link</a></td>
-            <td>01/01/2024</td>
-            <td>1,000,000</td>
-            <td><button type="button" class="btn btn-primary">Tayangan</button></td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Judul Tayangan 3</td>
-            <td>Sinopsis dari Judul Tayangan 3</td>
-            <td><a href="#">Trailer Link</a></td>
-            <td>01/01/2024</td>
-            <td>1,000,000</td>
-            <td><button type="button" class="btn btn-primary">Tayangan</button></td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Judul Tayangan 4</td>
-            <td>Sinopsis dari Judul Tayangan 4</td>
-            <td><a href="#">Trailer Link</a></td>
-            <td>01/01/2024</td>
-            <td>1,000,000</td>
-            <td><button type="button" class="btn btn-primary">Tayangan</button></td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>Judul Tayangan 5</td>
-            <td>Sinopsis dari Judul Tayangan 5</td>
-            <td><a href="#">Trailer Link</a></td>
-            <td>01/01/2024</td>
-            <td>1,000,000</td>
-            <td><button type="button" class="btn btn-primary">Tayangan</button></td>
-          </tr>
-          <!-- Repeat the above row structure for each tayangan -->
-          <!-- Add more rows for each tayangan -->
+          {% for item in top_ten %}
+      <tr>
+          <td>{{ forloop.counter }}</td> <!-- Peringkat -->
+          <td>{{ item.5}}</td> <!-- judul -->
+          <td>{{ item.6}}</td> <!-- sinopsis -->
+          <td>
+            <a>{{ item.9}}</a> 
+          </td><!-- Traiuler url -->
+          <td>{{ item.10}}</td> <!-- Release Date -->
+          <td>{{ item.15}}</td> <!-- Release Date --> 
+          <td> 
+            <button class="btn btn-primary"><a href="">Lihat Selengkapnya</a></button>
+
+          </td>
+      </tr>
+  {% endfor %}
+       
         </tbody>
       </table>
     </div>
@@ -140,7 +120,7 @@
   <!-- Film Table -->
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Film</h5>
+      <h5 class="card-title">ALL FILMS</h5>
       <table class="table">
         <thead>
           <tr>
@@ -152,23 +132,65 @@
           </tr>
         </thead>
         <tbody>
+          {% for film in films %}
           <tr>
-            <td>Judul Film 1</td>
-            <td>Sinopsis dari Judul Film 1</td>
-            <td><a href="#">Trailer Link</a></td>
-            <td>01/01/2024</td>
-            <td><button type="button" class="btn btn-primary">Tayangan</button></td>
+              <td>{{ film.1}}</td> <!-- judul -->
+              <td>{{ film.2}}</td> <!-- sinopsis -->
+            
+              <td>{{ film.5}}</td> 
+              <td>{{ film.6}}</td> 
+              <td> 
+                <button class="btn btn-primary"><a href="">Lihat Selengkapnya</a></button>
+              </td>
+              {% endfor %}
+             
           </tr>
-          <!-- Repeat the above row structure for each film -->
-          <!-- Add more rows for each film -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+                                                                              <!-- SERIES -->
+  <div class="card">
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Peringkat</th>
+            <th>Judul</th>
+            <th>Sinopsis</th>
+            <th>Trailer URL</th>
+            <th>Tanggal Rilis</th>
+            <th>Total View 7 Hari Terakhir</th>
+            <th>Tombol ke Halaman Tayangan</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in top_series %}
+      <tr>
+          <td>{{ forloop.counter }}</td> <!-- Peringkat -->
+          <td>{{ item.5}}</td> <!-- judul -->
+          <td>{{ item.6}}</td> <!-- sinopsis -->
+          <td>
+            <a>{{ item.9}}</a> 
+          </td><!-- Traiuler url -->
+          <td>{{ item.10}}</td> <!-- Release Date -->
+          <td>{{ item.15}}</td> <!-- Release Date --> 
+          <td> 
+            <button class="btn btn-primary"><a href="">Lihat Selengkapnya</a></button>
+
+          </td>
+      </tr>
+  {% endfor %}
+       
         </tbody>
       </table>
     </div>
   </div>
 
+  <!-- Film Table -->
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Series</h5>
+      <h5 class="card-title">ALL SERIES</h5>
       <table class="table">
         <thead>
           <tr>
@@ -180,15 +202,19 @@
           </tr>
         </thead>
         <tbody>
+          {% for seri in series %}
           <tr>
-            <td>Judul Series 1</td>
-            <td>Sinopsis dari Judul Series 1</td>
-            <td><a href="#">Trailer Link</a></td>
-            <td>01/01/2024</td>
-            <td><button type="button" class="btn btn-primary">Tayangan</button></td>
+              <td>{{ seri.1}}</td> <!-- judul -->
+              <td>{{ seri.2}}</td> <!-- sinopsis -->
+            
+              <td>{{ seri.5}}</td> 
+              <td>{{ seri.6}}</td> 
+              <td> 
+                <button class="btn btn-primary"><a href="">Lihat Selengkapnya</a></button>
+              </td>
+              {% endfor %}
+             
           </tr>
-          <!-- Repeat the above row structure for each series -->
-          <!-- Add more rows for each series -->
         </tbody>
       </table>
     </div>
