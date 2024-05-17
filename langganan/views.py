@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from datetime import datetime
+from datetime import datetime, timedelta
+from django.shortcuts import redirect
 from django.db import connection
+from django.contrib.auth.decorators import login_required
 
 def show_subscription(request):
-    users = get_users()
-    selected_user = request.GET.get('username')
+    #users = get_users()
+    selected_user = request.COOKIES.get('username')
     active_subscription = None
     transaction_history = []
     recommended_packages = get_packages()
@@ -14,7 +16,7 @@ def show_subscription(request):
         transaction_history = get_transaction_history(selected_user)
 
     context = {
-        'users': users,
+        # 'users': users,
         'selected_user': selected_user,
         'active_subscription': active_subscription,
         'transaction_history': transaction_history,
@@ -75,11 +77,30 @@ def show_checkout(request, package_name):
         print(package_info)
 
     context = {
-        'package_info': package_info
+        'package_info': package_info,
+        'package_name': package_name
     }
 
     return render(request, "checkout.html", context)
 
+def add_transaction(request, package_name):
+    if request.method == 'POST':
+        username = request.COOKIES.get('username')
+        payment_method = request.POST.get('payment_method')
+
+        start_date_time = datetime.now().date()
+        end_date_time = start_date_time + timedelta(days=30)
+
+        with connection.cursor() as cursor:
+            cursor.execute("SET search_path TO public")
+            cursor.execute("""
+                INSERT INTO TRANSAKSI (username, start_date_time, end_date_time, nama_paket, metode_pembayaran, timestamp_pembayaran)
+                VALUES (%s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+            """, (username, start_date_time, end_date_time, package_name, payment_method))
+        
+        return redirect('/subscription/')
+    else:
+        return redirect('/subscription/')
 
 # def get_package_info(package_name):
 #     with connection.cursor() as cursor:
