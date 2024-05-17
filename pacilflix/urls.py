@@ -16,7 +16,6 @@ Including another URLconf
 """
 
 from django.urls import include, path
-from authentication import admin
 from authentication.views import login, register, logout_user, register_page
 from authentication.views import show_main
 
@@ -39,7 +38,6 @@ from tayangan.views import (
 app_name = "authentication"
 urlpatterns = [
     path('', show_main, name='show_main'),
-    path('admin/', admin.site.urls),
     path('register/', register_page, name='register'),
     path('handle-register/', register, name='handle_register'),
     path('login/', login, name='login'), 
