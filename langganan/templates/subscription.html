@@ -80,6 +80,7 @@
         <h3>{{ active_subscription.0 }}</h3>
         <p>Price: ${{ active_subscription.1 }}/month</p>
         <p>Resolution: {{ active_subscription.2 }}</p>
+        <p>Supported Devices: {{ supported_devices }}</p>
       </div>
       <div>
         <p>Start Date: {{ active_subscription.3 }}</p>
@@ -101,6 +102,7 @@
         <h3>{{ package.0 }}</h3>
         <p>Price: ${{ package.1 }}/month</p>
         <p>Resolution: {{ package.2 }}</p>
+        <p>Supported Device: {{ package.3 }}</p>
       </div>
       <div>
         <a href="{% url 'checkout' package_name=package.0 %}"><button>Beli / Checkout</button></a>

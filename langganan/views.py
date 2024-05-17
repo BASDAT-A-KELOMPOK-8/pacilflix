@@ -11,16 +11,24 @@ def show_subscription(request):
     transaction_history = []
     recommended_packages = get_packages()
 
+    print(recommended_packages)
+
     if selected_user:
         active_subscription = get_active_subscription(selected_user)
+        print(active_subscription)
         transaction_history = get_transaction_history(selected_user)
+    
+    supported_devices = ', '.join(get_device_support(active_subscription[0]))
+    print("tes yaaaaaaaa")
+    print(supported_devices)
 
     context = {
         # 'users': users,
         'selected_user': selected_user,
         'active_subscription': active_subscription,
         'transaction_history': transaction_history,
-        'recommended_packages': recommended_packages
+        'recommended_packages': recommended_packages,
+        'supported_devices': supported_devices
     }
     return render(request, 'subscription.html', context)
 
@@ -55,6 +63,12 @@ def get_packages():
         cursor.execute("SET search_path TO public")
         cursor.execute("SELECT nama, harga, resolusi_layar FROM PAKET")
         packages = cursor.fetchall()
+        
+        for i, package in enumerate(packages):
+            package_name = package[0]
+            device_support = ', '.join(get_device_support(package_name))
+            packages[i] = package + (device_support,)
+            
         return packages
 
 def get_users():

@@ -14,31 +14,36 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
 
+from django.urls import include, path
 from authentication.views import login, register, logout_user, register_page
 from authentication.views import show_main
 
-from daftar_favorit.views import show_favorites
+from daftar_favorit.views import delete_favorite, show_favorites
 # from daftar_favorit.views import delete_favorite
 from daftar_unduhan.views import show_downloads
 
 from langganan.views import show_subscription, show_checkout, add_transaction
 from daftar_kontributor.views import show_contributors
 
-from tayangan.views import tayangan_display, tayangan_detail, detail_series, detail_episode, daftar_trailer
+from tayangan.views import (
+    tayangan_display,
+    tayangan_detail,
+    detail_series,
+    detail_episode,
+    daftar_trailer,
+)
 
-app_name = 'authentication'
+app_name = "authentication"
 urlpatterns = [
     path('', show_main, name='show_main'),
-    path('admin/', admin.site.urls),
     path('register/', register_page, name='register'),
     path('handle-register/', register, name='handle_register'),
     path('login/', login, name='login'), 
     path('logout/', logout_user, name='logout'),
 
     path('favorites/', show_favorites, name='favorites'),
+    path('favorites/delete/', delete_favorite, name='delete_favorite'),
     # path('<str:username>/favorites/delete/', delete_favorite, name='delete_favorite'),
     path('downloads/', show_downloads, name='downloads'),
 

@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from os import getenv
 from pathlib import Path
-from os import getenv
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -64,6 +63,7 @@ INSTALLED_APPS = [
     'langganan',
     'daftar_kontributor',
     'tayangan',
+    'elements',
 ]
 
 MIDDLEWARE = [
@@ -105,17 +105,17 @@ WSGI_APPLICATION = 'pacilflix.wsgi.application'
 # print("x"*100)
 
 DATABASES = {
-  'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': getenv('PGDATABASE'),
-    'USER': getenv('PGUSER'),
-    'PASSWORD': getenv('PGPASSWORD'),
-    'HOST': getenv('PGHOST'),
-    'PORT': getenv('PGPORT', 5432),
-    'OPTIONS': {
-      'sslmode': 'require',
-    },
-  }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': getenv('PGDATABASE'),
+        'USER': getenv('PGUSER'),
+        'PASSWORD': getenv('PGPASSWORD'),
+        'HOST': getenv('PGHOST'),
+        'PORT': getenv('PGPORT', 5432),
+         'OPTIONS': {
+             'sslmode': 'require',
+        }
+    }
 }
 
 
