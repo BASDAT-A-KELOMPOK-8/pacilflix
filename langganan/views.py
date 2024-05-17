@@ -75,10 +75,13 @@ def show_checkout(request, package_name):
         """, (package_name,))
         package_info = cursor.fetchone()
         print(package_info)
+        dukungan_perangkat = get_device_support(package_name)
+        print(', '.join(dukungan_perangkat))
 
     context = {
         'package_info': package_info,
-        'package_name': package_name
+        'package_name': package_name,
+        'dukungan_perangkat': ', '.join(dukungan_perangkat)
     }
 
     return render(request, "checkout.html", context)
@@ -101,6 +104,23 @@ def add_transaction(request, package_name):
         return redirect('/subscription/')
     else:
         return redirect('/subscription/')
+
+def get_device_support(package_name):
+    with connection.cursor() as cursor:
+        cursor.execute("SET search_path TO public")
+        cursor.execute("""
+            SELECT STRING_AGG(dukungan_perangkat, ', ') AS supported_devices
+            FROM DUKUNGAN_PERANGKAT
+            WHERE nama_paket = %s
+            GROUP BY nama_paket
+        """, (package_name,))
+        device_support_row = cursor.fetchone()
+        if device_support_row:
+            device_support = device_support_row[0].split(', ')
+            return device_support
+        else:
+            return []
+
 
 # def get_package_info(package_name):
 #     with connection.cursor() as cursor:

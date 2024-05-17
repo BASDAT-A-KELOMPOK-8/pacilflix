@@ -52,6 +52,7 @@
     <p><strong>Name:</strong> {{ package_info.0 }}</p>
     <p><strong>Price:</strong> ${{ package_info.1 }}/month</p>
     <p><strong>Resolution:</strong> {{ package_info.2 }}</p>
+    <p><strong>Supported Device:</strong> {{ dukungan_perangkat }}</p>
   </div>
 
   <div class="payment-method">
@@ -60,9 +61,9 @@
       {% csrf_token %}
       <label for="payment_method">Select Payment Method:</label>
       <select id="payment_method" name="payment_method">
-        <option value="transfer">transfer</option>
-        <option value="shopeepay">shopeepay</option>
-        <option value="gopay">gopay</option>
+        <option value="transfer-bank">transfer-bank</option>
+        <option value="kartu kredit">kartu kredit</option>
+        <option value="E-Wallet">E-Wallet</option>
       </select>
       <button type="submit">Checkout</button>
     </form>

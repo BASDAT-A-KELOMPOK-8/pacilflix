@@ -24,7 +24,7 @@ from daftar_favorit.views import show_favorites
 # from daftar_favorit.views import delete_favorite
 from daftar_unduhan.views import show_downloads
 
-from langganan.views import show_subscription, show_checkout
+from langganan.views import show_subscription, show_checkout, add_transaction
 from daftar_kontributor.views import show_contributors
 
 from tayangan.views import tayangan_display, tayangan_detail, detail_series, detail_episode, daftar_trailer
@@ -44,6 +44,7 @@ urlpatterns = [
 
     path('subscription/', show_subscription, name='subscription'),
     path('checkout/<str:package_name>/', show_checkout, name='checkout'),
+    path('checkout/<str:package_name>/add_transaction/', add_transaction, name='add_transaction'),
     path('contributors/', show_contributors, name='contributors'),
 
     path('tayangan/', tayangan_display, name='tayangan'),
