@@ -11,14 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from os import getenv
-from pathlib import Path
-from os import getenv
 from dotenv import load_dotenv
 
-load_dotenv()
-from dotenv import load_dotenv
-
-# Load variables from a .env file, if present
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -35,6 +29,21 @@ SECRET_KEY = 'django-insecure-x*79i$mtjgxwn9tgn6mm8eoc0z1qlm_pi)d+@l6n)gjl!l4-a)
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
 
 
 # Application definition
@@ -132,6 +141,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', 'http://localhost']
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
