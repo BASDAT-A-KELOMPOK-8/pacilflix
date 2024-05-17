@@ -10,15 +10,18 @@ def show_subscription(request):
     active_subscription = None
     transaction_history = []
     recommended_packages = get_packages()
+    supported_devices = None
 
     print(recommended_packages)
+    print("usermasuk" + selected_user)
 
     if selected_user:
         active_subscription = get_active_subscription(selected_user)
         print(active_subscription)
         transaction_history = get_transaction_history(selected_user)
+        if active_subscription:
+            supported_devices = ', '.join(get_device_support(active_subscription[0]))
     
-    supported_devices = ', '.join(get_device_support(active_subscription[0]))
     print("tes yaaaaaaaa")
     print(supported_devices)
 
