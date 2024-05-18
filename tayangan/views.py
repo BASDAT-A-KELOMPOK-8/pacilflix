@@ -1,17 +1,17 @@
 from django.shortcuts import render
 from django.db import connection
+from django.http import HttpResponseRedirect, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
 def tayangan_display(request):
-    create_view_get_durasi()
-    create_view_viewers()
+    # create_view_get_durasi()
+    # create_view_viewers()
     top_ten = get_top_ten_film()
     top_ten_series = get_top_ten_series()
     film_range = range(min(10, len(top_ten)))
-    print("aman\n")
-    print(top_ten[0][0])
-    print("\n")
+
     film = get_tayangan_film()
     series = get_tayangan_series()
     context = {
@@ -31,7 +31,6 @@ def get_pengguna():
         cursor.execute("SELECT * FROM film")
 
         data = cursor.fetchall()
-        print(data)
         context = {"data": data}
 
     # return render(request, "detail_tayangan.html")
@@ -79,7 +78,6 @@ def get_all_history():
         cursor.execute("SELECT * FROM riwayat_nonton")
 
         history = cursor.fetchall()
-        print(history)
         context = {"history": history}
     return context
 
@@ -97,7 +95,6 @@ def get_top_ten_film():
 
 
 def get_top_ten_series():
-    print("nice")
 
     with connection.cursor() as cursor:
         cursor.execute(
@@ -123,7 +120,6 @@ select id_tayangan,persentase,count(id_tayangan) as jumlah_view from get_durasi 
         except Exception as e:
             print("Viewers Not Found")
 
-        print("MASOK")
         cursor.execute("select * from viewers")
 
         durasi = cursor.fetchall()
@@ -150,7 +146,6 @@ WHERE
     with connection.cursor() as cursor:
         try:
             cursor.execute("DROP VIEW get_durasi")
-            print("sudahad a")
             cursor.execute(create_view)
 
         except Exception as e:
@@ -158,25 +153,73 @@ WHERE
 
         cursor.execute("select * from get_durasi")
         viewers = cursor.fetchall()
-        print(viewers)
     return viewers
 
 
-def detail_tayangan(request, id="84d56653-332d-4494-8037-56932c2e0513"):
+@csrf_exempt
+def detail_tayangan(request, id):
+    user_now = get_user(request)
+    id_tayangan = id
+    error_message = "none"
+
+    if request.method == "POST":
+        error_message = submit_ulasan(request, id_tayangan)
+
+    ulasan = get_ulasan(id)
+
     with connection.cursor() as cursor:
         cursor.execute(
-            f"select *,COALESCE(jumlah_view, 0) AS viewer_count from film, tayangan left join viewers on id =id_tayangan where id = film.id_tayangan"
+            f"select *,COALESCE(jumlah_view, 0) AS viewer_count from film, tayangan left join viewers on id =id_tayangan where id = '{id}' "
         )
 
         detail_tayangan = cursor.fetchall()
-        print("DETAIL")
-        print(detail_tayangan)
         durasi = detail_tayangan[0][3]
-        print(detail_tayangan)
-        print(durasi)
         jam = durasi // 60
         menit = durasi % 60
         total_durasi = f"{jam} jam {menit} menit"
-        print(total_durasi)
-        context = {"detail_tayangan": detail_tayangan, "durasi": total_durasi}
+        context = {
+            "detail_tayangan": detail_tayangan,
+            "durasi": total_durasi,
+            "ulasan": ulasan,
+            "id_tayangan": id_tayangan,
+            "error_message": error_message,
+        }
+
     return render(request, "detail_tayangan.html", context)
+
+
+def get_user(request):
+    user_now = request.COOKIES.get("username")
+    return user_now
+
+
+def get_ulasan(id_tayangan):
+    with connection.cursor() as cursor:
+        cursor.execute(f"select * from ulasan where id_tayangan = '{id_tayangan}' ")
+        ulasan = cursor.fetchall()
+        return ulasan
+
+
+def submit_ulasan(request, id):
+    user_now = get_user(request)
+    id_tayangan = id
+
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                        INSERT INTO ulasan (id_tayangan, username, timestamp, rating, deskripsi)
+                        VALUES (%s, %s, '2024-06-21 08:12:35', %s, %s)
+                    """,
+                [id_tayangan, user_now, 2, "testing"],
+            )
+            ulasan = cursor.fetchall()
+            print("berasil")
+            error_message = "Ulasan Berhasil Di Unggah!"
+            return error_message
+    except Exception as e:
+        error_message = str(e)
+        print(error_message)
+        print("GABISA")
+        error_message = "Anda sudah pernah mengulas tayangan ini!"
+        return error_message

@@ -55,12 +55,21 @@
 </head>
 <body>
 <h1 class="center-heading">Halaman Film</h1>
+
+
+{% if error_message != "none" %}
+
+<h1 class="center-heading">{{error_message}}</h1>
+{% endif %}
+
+
 <div class="container">
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">{{detail_tayangan.0.5}}</h5>
       <table class="table">
         <tbody>
+          
           <tr>
             <td>Judul:</td>
             <td>{{detail_tayangan.0.5}}</td>
@@ -134,18 +143,23 @@
             <label for="ratingInput">Rating:</label>
             <input type="number" class="form-control" id="ratingInput" placeholder="Masukkan rating">
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" formmethod="POST" class="btn btn-primary submit-btn">Submit</button>
         </form>
         <h6>Daftar Ulasan:</h6>
         <ul>
-          <li>4 : Filmnya bagus tapi agak banyak masalah aja yang muncul</li>
-          <li>3 : Orang disebelah waktu nonton malah pakai headset denger lagu kenceng-kenceng jadi ngeganggu nonton filmnya :/</li>
+          {% for item in ulasan %}
+          <li><b>{{item.1}}</b> ({{item.3}}) : {{item.4}}</li>
+          {% endfor %}
           <!-- Add more reviews -->
         </ul>
       </div>
     </div>
   </div>
 </div>
+
+
+
+
 </body>
 
 

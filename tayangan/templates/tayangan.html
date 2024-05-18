@@ -98,7 +98,7 @@ aaaaa{% extends 'base.html' %}
           {% for item in top_ten %}
       <tr>
           <td>{{ forloop.counter }}</td> <!-- Peringkat -->
-          <td>{{ item.5}}</td> <!-- judul -->
+          <td>{{ item.0}}</td> <!-- judul -->
           <td>{{ item.6}}</td> <!-- sinopsis -->
           <td>
             <a>{{ item.9}}</a> 
@@ -106,9 +106,8 @@ aaaaa{% extends 'base.html' %}
           <td>{{ item.10}}</td> <!-- Release Date -->
           <td>{{ item.15}}</td> <!-- Release Date --> 
           <td> 
-            <button class="btn btn-primary"><a href="">Lihat Selengkapnya</a></button>
-
-          </td>
+            <button class="btn btn-primary"><a href="{% url 'tayangan:detail_tayangan' item.0 %}">Lihat Selengkapnya</a></button>
+           </td>
       </tr>
   {% endfor %}
        
