@@ -19,9 +19,8 @@ from django.urls import include, path
 from authentication.views import login, register, logout_user, register_page
 from authentication.views import show_main
 
-from daftar_favorit.views import delete_favorite, show_favorites
-# from daftar_favorit.views import delete_favorite
-from daftar_unduhan.views import show_downloads
+from daftar_favorit.views import show_favorites, show_favorite_details, add_favorite, delete_favorite, add_favorite_item, delete_favorited_item
+from daftar_unduhan.views import delete_download, show_downloads
 
 from elements.views import elements_list
 from langganan.views import show_subscription, show_checkout
@@ -38,12 +37,22 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
 
     path('favorites/', show_favorites, name='favorites'),
-    path('favorites/delete/', delete_favorite, name='delete_favorite'),
-    # path('<str:username>/favorites/delete/', delete_favorite, name='delete_favorite'),
-    path("downloads/", show_downloads, name="downloads"),
-    path("subscription/", show_subscription, name="subscription"),
-    path("checkout/", show_checkout, name="checkout"),
-    path("contributors/", show_contributors, name="contributors"),
-    path("tayangan/", include("tayangan.urls")),
-    # path("tayangan/detail_tayangan", detail_tayangan, name="detail_tayangan"),
+    path('favorites/<str:judul>/<str:timestamp>/<str:username>/', show_favorite_details, name='favorite_details'),
+    path('add_favorite/<str:judul>', add_favorite, name='add_favorite'),
+    # path('addfavoriteitem/<str:judul>', add_favorite_item, name='add_favorite_item'),
+    path('delete/<str:judul>/<str:timestamp>/', delete_favorite, name='delete_favorite'),
+    path('deleteitem/<uuid:id_tayangan>/<str:timestamp>/', delete_favorited_item, name='delete_favorited_item'),
+
+    path('downloads/', show_downloads, name='downloads'),
+    path('delete_download/<uuid:id_tayangan>/<str:timestamp>/', delete_download, name='delete_download'),
+
+    path('subscription/', show_subscription, name='subscription'),
+    path('checkout/', show_checkout, name='checkout'),
+    path('contributors/', show_contributors, name='contributors'),
+
+    path('tayangan/', tayangan_display, name='tayangan'),
+    path('tayangan/detail/', tayangan_detail, name='tayangan_detail'),
+    path('tayangan/detail/series/', detail_series, name='detail_series'),
+    path('tayangan/detail/episode/', detail_episode, name='detail_episode'),
+    path('tayangan/trailer/', daftar_trailer, name='daftar_trailer'),
 ]
