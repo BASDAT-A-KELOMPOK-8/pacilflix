@@ -58,7 +58,7 @@
   </style>
 </head>
 <body>
-<h1 class="center-heading">Daftar Tayangan - Dashboard</h1>
+<h1 class="center-heading">Daftar Tayangan - TRAILER (Guest)</h1>
 <div class="container">
     <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Search Tayangan..." aria-label="Search Tayangan" aria-describedby="button-search">
@@ -91,7 +91,7 @@
             <th>Trailer URL</th>
             <th>Tanggal Rilis</th>
             <th>Total View 7 Hari Terakhir</th>
-            <th>Tombol ke Halaman Tayangan</th>
+    
           </tr>
         </thead>
         <tbody>
@@ -105,7 +105,7 @@
           </td><!-- Traiuler url -->
           <td>{{ item.10}}</td> <!-- Release Date -->
           <td>{{ item.15}}</td> <!-- Release Date --> 
-        
+          
       </tr>
   {% endfor %}
        
@@ -125,7 +125,7 @@
             <th>Sinopsis</th>
             <th>Trailer URL</th>
             <th>Tanggal Rilis</th>
-            <th>Tombol ke Halaman Tayangan</th>
+        
           </tr>
         </thead>
         <tbody>
@@ -136,9 +136,7 @@
             
               <td>{{ film.5}}</td> 
               <td>{{ film.6}}</td> 
-              <td> 
-                <button class="btn btn-primary btn-view-all"><a href="{% url 'tayangan:detail_tayangan' film.0 %}" class="btn-view-all" >Lihat Selengkapnya</a></button>
-              </td>
+              
               {% endfor %}
              
           </tr>
@@ -172,10 +170,7 @@
           </td><!-- Traiuler url -->
           <td>{{ item.9}}</td> <!-- Release Date -->
           <td>{{ item.15}}</td> <!-- Release Date --> 
-          <td> 
-            <button class="btn btn-primary btn-view-all"><a href="{% url 'tayangan:detail_tayangan' item.0 %}" class="btn-view-all" >Lihat Selengkapnya</a></button>
-
-          </td>
+         
       </tr>
   {% endfor %}
        
@@ -206,9 +201,7 @@
             
               <td>{{ seri.5}}</td> 
               <td>{{ seri.6}}</td> 
-              <td> 
-                <button class="btn btn-primary btn-view-all"><a href="{% url 'tayangan:detail_tayangan' seri.0 %}" class="btn-view-all"">Lihat Selengkapnya</a></button>
-              </td>
+             
               {% endfor %}
              
           </tr>

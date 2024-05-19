@@ -25,6 +25,25 @@ def tayangan_display(request):
     return render(request, "tayangan.html", context)
 
 
+def tayangan_display(request):
+
+    top_ten = get_top_ten_film()
+    top_ten_series = get_top_ten_series()
+    film_range = range(min(10, len(top_ten)))
+
+    film = get_tayangan_film()
+    series = get_tayangan_series()
+    context = {
+        "films": film,
+        "series": series,
+        "top_ten": top_ten,
+        "top_series": top_ten_series,
+        "film_range": film_range,
+    }
+
+    return render(request, "daftar_trailer.html", context)
+
+
 # def get_pengguna(self):
 #     with connection.cursor() as cursor:
 
