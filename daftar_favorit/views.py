@@ -34,6 +34,7 @@ def show_favorite_details(request, judul, timestamp, username):
             favorites = cursor.fetchall()
 
         context = {
+            'title' : judul,
             'timestamp': timestamp,
             'favorites': favorites,
         }

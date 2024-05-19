@@ -39,7 +39,12 @@
     </style>
 
 <nav class="navbar navbar-expand-lg navbar-light navbar-custom"> 
+    
+    {% if request.COOKIES.is_authenticated %}
+    <a class="navbar-brand" href="{% url 'tayangan' %}">PacilFlix - A8</a>
+    {% else %}
     <a class="navbar-brand" href="/">PacilFlix - A8</a> 
+    {% endif %}
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
