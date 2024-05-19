@@ -69,14 +69,14 @@
                     <tbody>
                         <tr>
                             <td>
-                                <h4>{{ download.0 }}</h4>
+                                <h4>{{ download.1 }}</h4>
                             </td>
 
-                            <td>{{ download.1|date:"Y-m-d H:i:s" }}</td>
+                            <td>{{ download.2|date:"Y-m-d H:i:s" }}</td>
                             <td>
-                                <button type="button" data-title="{{ download.0.judul }}" data-timestamp="{{ download.1 }}">
+                                <a class="delete-button" href="{% url 'delete_download' download.0 download.2|date:'Y-m-d H:i:s' %}">
                                     <ion-icon name="close-circle"></ion-icon>
-                                </button>                               
+                                </a>                         
                             </td>
                         </tr>
                     </tbody>
@@ -84,37 +84,59 @@
                 </table>
             </div>
         </div>
+
+        <!-- Error Modal -->
+        <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="errorModalLabel">GAGAL MENGHAPUS TAYANGAN DARI DAFTAR UNDUHAN</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Tayangan minimal harus berada di daftar unduhan selama 1 hari agar bisa dihapus.
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        $('.delete-button').click(function() {
-              var judul = $(this).data('title');
-              var timestamp = $(this).data('timestamp');
-              var button = $(this);
-              var deleteUrl = $('#delete-url').val();
-              var csrfToken = $('#csrf-token').val();
-      
-              $.ajax({
-                  url: deleteUrl,
-                  type: 'POST',
-                  data: {
-                      'judul': judul,
-                      'timestamp': timestamp,
-                      'csrfmiddlewaretoken': csrfToken
-                  },
-                  dataType: 'json',
-                  success: function(data) {
-                      if (data.success) {
-                          alert('Item deleted successfully');
-                          button.closest('tr').remove();
-                      } else {
-                          alert('Error: ' + data.error);
-                      }
-                  },
-                  error: function(xhr, status, error) {
-                      alert('Error: ' + error);
-                  }
-              });
-          });
-      </script>
+        // Add event listener to the delete buttons
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                var url = this.href;
+    
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        // Show the error modal if the specific error message is returned
+                        if (data.error === "Tayangan terunduh harus lebih dari satu hari untuk dihapus") {
+                            $('#errorModal').modal('show');
+                        } else {
+                            console.error(data.error);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    </script>
 {% endblock content %}

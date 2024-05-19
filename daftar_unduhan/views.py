@@ -1,18 +1,20 @@
 from django.db import connection
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse
 
 def show_downloads(request):
     username = request.COOKIES.get('username')
     with connection.cursor() as cursor:
         cursor.execute("SET search_path TO public;")
-        cursor.execute(f"SELECT t.judul, tt.timestamp \
+        cursor.execute(f"SELECT t.id, t.judul, tt.timestamp \
                         FROM tayangan_terunduh tt \
                         JOIN tayangan t ON tt.id_tayangan = t.id\
                         WHERE tt.username = '{username}';")
         
         daftar_unduhan = cursor.fetchall()
         cursor.close()
-        connection.close()
+        connection.close() 
 
     context = {
         'daftar_unduhan': daftar_unduhan,
@@ -20,12 +22,17 @@ def show_downloads(request):
 
     return render(request, "downloads.html", context)
 
-def delete_downloads(request, timestamp):
+def delete_download(request, id_tayangan, timestamp):
+    username = request.COOKIES.get('username')
     try:
         with connection.cursor() as cursor:
-            cursor.execute(f"delete from tayangan_terunduh where timestamp >= '{datetime_convert(timestamp)}00' and timestamp <= '{datetime_convert(timestamp)}59' and username = '{get_current_user(request)['username']}'")
+            cursor.execute(f"DELETE FROM tayangan_terunduh \
+                           WHERE timestamp = '{timestamp}' \
+                           AND username = '{username}'\
+                           AND id_tayangan = '{id_tayangan}';")
             cursor.close()
             connection.close()
-        return JsonResponse({'success': True})
+        return redirect(reverse('downloads'))
+    
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e).split("\n")[0]})

@@ -21,7 +21,7 @@ from authentication.views import login, register, logout_user, register_page
 from authentication.views import show_main
 
 from daftar_favorit.views import show_favorites, show_favorite_details, add_favorite, delete_favorite, add_favorite_item, delete_favorited_item
-from daftar_unduhan.views import show_downloads
+from daftar_unduhan.views import delete_download, show_downloads
 
 from elements.views import elements_list
 from langganan.views import show_subscription, show_checkout
@@ -46,6 +46,7 @@ urlpatterns = [
     path('deleteitem/<uuid:id_tayangan>/<str:timestamp>/', delete_favorited_item, name='delete_favorited_item'),
 
     path('downloads/', show_downloads, name='downloads'),
+    path('delete_download/<uuid:id_tayangan>/<str:timestamp>/', delete_download, name='delete_download'),
 
     path('subscription/', show_subscription, name='subscription'),
     path('checkout/', show_checkout, name='checkout'),
