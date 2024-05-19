@@ -20,8 +20,7 @@ from django.urls import path
 from authentication.views import login, register, logout_user, register_page
 from authentication.views import show_main
 
-from daftar_favorit.views import delete_favorite, show_favorites, add_favorite_item, show_favorites_details
-# from daftar_favorit.views import delete_favorite
+from daftar_favorit.views import show_favorites, show_favorite_details, add_favorite, delete_favorite, add_favorite_item, delete_favorited_item
 from daftar_unduhan.views import show_downloads
 
 from elements.views import elements_list
@@ -39,9 +38,13 @@ urlpatterns = [
     path('login/', login, name='login'), 
     path('logout/', logout_user, name='logout'),
 
-    path('favorites/<str:judul>/', show_favorites_details, name='favorites_details'),
     path('favorites/', show_favorites, name='favorites'),
-    path('favorites/delete/<str:judul>/', delete_favorite, name='delete_favorite'),
+    path('favorites/<str:judul>/<str:timestamp>/<str:username>/', show_favorite_details, name='favorite_details'),
+    path('favorites/add_favorite/<str:judul>', add_favorite, name='add_favorite'),
+    # path('addfavoriteitem/<str:judul>', add_favorite_item, name='add_favorite_item'),
+    path('favorites/delete/<str:judul>/<str:timestamp>/', delete_favorite, name='delete_favorite'),
+    path('deleteitem/<uuid:id_tayangan>/<str:timestamp>/', delete_favorited_item, name='delete_favorited_item'),
+
     path('downloads/', show_downloads, name='downloads'),
 
     path('subscription/', show_subscription, name='subscription'),

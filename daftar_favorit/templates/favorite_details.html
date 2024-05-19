@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block meta %}
-    <title>Favorites</title>
+    <title>Favorite Details</title>
 {% endblock meta %}
 
 {% block content %}
@@ -49,7 +49,7 @@
         <div class = "container justify-content-center align-items-center my-5">
 
             <div class="pt-3 pb-5">
-                <h1>Favorites</h1>
+                <h1>Favorite Details</h1>
             </div>
 
             <div>
@@ -64,15 +64,13 @@
                     <tbody>
                         <tr>
                             <td>
-                                <h4>{{ favorite.0 }}</h4>
+                                <h4>{{ favorite.1 }}</h4>
                             </td>
-
-                            <td>{{ favorite.1 }}</td>
-
+  
                             <td>
-                                <button class="delete-button" onclick="deleteFavorite('{{ forloop.counter }}')">
+                                <a class="delete-button" href="{% url 'delete_favorited_item' favorite.0 timestamp %}">
                                     <ion-icon name="close-circle"></ion-icon>
-                                </button>                               
+                                </a>                                 
                             </td>
                         </tr>
                     </tbody>
@@ -87,45 +85,5 @@
         </a>
 
     </div>
-
-    <script>
-        async function deleteFavorite(rowId) {
-            try {
-                var row = document.getElementById(rowId);
-                row.parentNode.removeChild(row);
-                
-                if (!row) {
-                    console.error('Row not found:', rowId);
-                    return;
-                }
-
-                const judulElement = row.querySelector('h4');
-
-                if (!judulElement) {
-                    console.error('Judul element not found in row:', rowId);
-                    return;
-                }
-
-                const judul = judulElement.textContent;
-
-                const response = await fetch('/favorites/delete/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token }}'  // Include CSRF token for security
-                    },
-                    body: JSON.stringify({ 'judul': judul })
-                });
-
-                if (response.ok) {
-                    row.remove();
-                } else {
-                    console.error('Failed to delete the favorite');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-    </script>
 
 {% endblock content %}

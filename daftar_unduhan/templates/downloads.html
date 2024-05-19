@@ -72,7 +72,7 @@
                                 <h4>{{ download.0 }}</h4>
                             </td>
 
-                            <td>{{ download.1 }}</td>
+                            <td>{{ download.1|date:"Y-m-d H:i:s" }}</td>
                             <td>
                                 <button type="button" data-title="{{ download.0.judul }}" data-timestamp="{{ download.1 }}">
                                     <ion-icon name="close-circle"></ion-icon>
