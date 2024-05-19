@@ -2,12 +2,12 @@ from django.shortcuts import render
 from django.db import connection
 from django.http import HttpResponseRedirect, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse
 
 
 # Create your views here.
 def tayangan_display(request):
-    # create_view_get_durasi()
-    # create_view_viewers()
+
     top_ten = get_top_ten_film()
     top_ten_series = get_top_ten_series()
     film_range = range(min(10, len(top_ten)))
@@ -83,7 +83,6 @@ def get_all_history():
 
 
 def get_top_ten_film():
-    print("nice")
 
     with connection.cursor() as cursor:
         cursor.execute(
@@ -201,25 +200,67 @@ def get_ulasan(id_tayangan):
 
 
 def submit_ulasan(request, id):
-    user_now = get_user(request)
-    id_tayangan = id
 
-    try:
-        with connection.cursor() as cursor:
-            cursor.execute(
-                """
-                        INSERT INTO ulasan (id_tayangan, username, timestamp, rating, deskripsi)
-                        VALUES (%s, %s, '2024-06-21 08:12:35', %s, %s)
-                    """,
-                [id_tayangan, user_now, 2, "testing"],
-            )
-            ulasan = cursor.fetchall()
-            print("berasil")
-            error_message = "Ulasan Berhasil Di Unggah!"
+    if request.method == "POST":
+
+        user_now = get_user(request)
+        deskripsi = request.POST.get("ulasan")
+        rating = request.POST.get("rating")
+        id_tayangan = id
+        print(rating, deskripsi)
+
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    f"""
+                            INSERT INTO ulasan (id_tayangan, username, timestamp,rating, deskripsi) values ('{id_tayangan}', '{user_now}', NOW(), {rating},'{deskripsi}')
+                            
+                        """,
+                    [id_tayangan, user_now, 2, "testing"],
+                )
+                print("berasil")
+
+                error_message = "Ulasan Berhasil Di Unggah!"
+                return error_message
+        except Exception as e:
+            error_message = e
+            print(error_message)
+            print("GABISA")
+            error_message = "Anda sudah pernah mengulas tayangan ini!"
             return error_message
-    except Exception as e:
-        error_message = str(e)
-        print(error_message)
-        print("GABISA")
-        error_message = "Anda sudah pernah mengulas tayangan ini!"
-        return error_message
+
+
+@csrf_exempt
+def submit_slider(request, id):
+    riwayat = find_riwayat(request, id)
+    id_tayangan = id
+    username = get_user(request)
+    if request.method == "POST":
+        slider = request.POST.get("slider")
+        print(slider)
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    f"update riwayat_nonton SET start_date_time = now(), end_date_time = now() + interval '{slider} minute' where id_tayangan = '{id_tayangan}' and username = '{username}'"
+                )
+                print("uye")
+        except Exception as e:
+            slider = 0
+
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    f"""INSERT INTO riwayat_nonton (id_tayangan, username, start_date_time, end_date_time) VALUES ('{id_tayangan}','{username}', now(), now() + interval '{slider} minute')""",
+                )
+            print("ok")
+
+    return HttpResponseRedirect(reverse("tayangan:dashboard"))
+
+
+def find_riwayat(request, id):
+    username = get_user(request)
+    id_tayangan = id
+    with connection.cursor() as cursor:
+        cursor.execute(f"select * from riwayat_nonton ")
+        riwayat = cursor.fetchall()
+        print("ini riwayat : ", riwayat)
+    return riwayat
