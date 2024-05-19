@@ -52,6 +52,7 @@ def get_tayangan_series():
     list_series = []
     for series in serieses:
         id = series[0]
+        print("ahoty", id)
         with connection.cursor() as cursor:
             cursor.execute("SELECT * FROM tayangan where id = %s", [id])
             list_series.extend(cursor.fetchall())
@@ -109,7 +110,7 @@ def create_view_viewers():
     durasi = create_view_get_durasi()
     create_view = """
 create view viewers as
-select id_tayangan,persentase,count(id_tayangan) as jumlah_view from get_durasi group by id_tayangan,persentase having persentase >= 20 order by persentase ;
+select id_tayangan,persentase,count(id_tayangan) as jumlah_view from get_durasi group by id_tayangan,persentase having persentase >= 70 order by persentase ;
 """
     # nanti diganti jadi >=- 70
     with connection.cursor() as cursor:
