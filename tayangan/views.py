@@ -24,14 +24,14 @@ def tayangan_display(request):
     return render(request, "tayangan.html", context)
 
 
-def get_pengguna(self):
-    with connection.cursor() as cursor:
+# def get_pengguna(self):
+#     with connection.cursor() as cursor:
 
-        cursor.execute("SELECT * from pengguna")
-        data = cursor.fetchall()
-        context = {"data": data}
+#         cursor.execute("SELECT * from pengguna")
+#         data = cursor.fetchall()
+#         context = {"data": data}
 
-    # return render(request, "detail_tayangan.html")
+#     # return render(request, "detail_tayangan.html")
 
 
 def get_tayangan_film():
@@ -96,9 +96,8 @@ def get_top_ten_series():
     with connection.cursor() as cursor:
         cursor.execute("SELECT * from film")
         data_tayangan = cursor.fetchall()
-        print(data_tayangan)
 
-    return render(data_tayangan, "detail_tayangan.html")
+    return data_tayangan
 
 
 def create_view_viewers():
@@ -154,7 +153,7 @@ WHERE
 
 @csrf_exempt
 def detail_tayangan(request, id):
-    user_now = get_user(request)
+    username = request.COOKIES.get('username')
     id_tayangan = id
     error_message = "none"
 
@@ -162,6 +161,15 @@ def detail_tayangan(request, id):
         error_message = submit_ulasan(request, id_tayangan)
 
     ulasan = get_ulasan(id)
+
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT judul, timestamp \
+        FROM daftar_favorit \
+        WHERE username = %s \
+        ORDER BY timestamp;", [username])
+        favorites = cursor.fetchall()
+        cursor.close()
+        connection.close()
 
     with connection.cursor() as cursor:
         cursor.execute(
@@ -179,6 +187,7 @@ def detail_tayangan(request, id):
             "ulasan": ulasan,
             "id_tayangan": id_tayangan,
             "error_message": error_message,
+            'favorites' : favorites,
         }
 
     return render(request, "detail_tayangan.html", context)

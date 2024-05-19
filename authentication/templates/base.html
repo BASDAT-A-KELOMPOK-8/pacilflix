@@ -41,7 +41,7 @@
 <nav class="navbar navbar-expand-lg navbar-light navbar-custom"> 
     
     {% if request.COOKIES.is_authenticated %}
-    <a class="navbar-brand" href="{% url 'tayangan' %}">PacilFlix - A8</a>
+    <a class="navbar-brand" href="{% url 'tayangan:dashboard' %}">PacilFlix - A8</a>
     {% else %}
     <a class="navbar-brand" href="/">PacilFlix - A8</a> 
     {% endif %}

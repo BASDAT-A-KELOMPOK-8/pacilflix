@@ -92,11 +92,11 @@
           </tr>
           <tr>
             <td>Tombol Unduh Tayangan:</td>
-            <td><button type="button" class="btn btn-primary">Unduh Tayangan</button></td>
+            <td><button type="button" class="btn btn-primary" id="downloadButton">Unduh Tayangan</button></td>
           </tr>
           <tr>
             <td>Tombol Favorit Tayangan:</td>
-            <td><button type="button" class="btn btn-primary">Favorit</button></td>
+            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addToFavoritesModal">Favorit</button></td>
           </tr>
           <tr>
             <td>Total View:</td>
@@ -168,15 +168,58 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal Unduhan-->
+  <div class="modal fade" id="downloadSuccessModal" tabindex="-1" aria-labelledby="downloadSuccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="downloadSuccessModalLabel" style="color: black;">SUKSES MENAMBAHKAN TAYANGAN KE DAFTAR UNDUHAN</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="color: black;">
+          <p>Selamat! Anda telah berhasil mengunduh {{detail_tayangan.0.5}} dan akan berlaku hingga 7 hari. Cek informasi selengkapnya pada halaman daftar unduhan.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+          <a href="{% url 'downloads' %}" class="btn btn-primary">Menuju Daftar Unduhan</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add to Favorites Modal -->
+  <div class="modal fade" id="addToFavoritesModal" tabindex="-1" aria-labelledby="addToFavoritesModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addToFavoritesModalLabel" style="color: black;">TAMBAH KE DAFTAR FAVORIT</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p style="color: black;">Judul Daftar Favorit:</p>
+          <select class="form-control" id="favoriteDropdown">
+            {% for favorite in favorites %}
+              <option value="{{ favorite.1|date:'Y-m-d H:i:s' }}" style="color: black;">{{ favorite.0 }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="addToFavoritesButton">Tambah</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 
 <script>
-
-
-
-
-
   document.addEventListener("DOMContentLoaded", function() {
     const slider = document.getElementById("progressSlider");
     const output = document.getElementById("sliderValue");
@@ -190,11 +233,7 @@
       console.log(slider.value); // Optional: untuk menampilkan nilai di console
     });
 
-
-
   });
-
-  
 
   document.addEventListener("DOMContentLoaded", function() {
     const btn = document.getElementById("button-nonton");
@@ -220,13 +259,73 @@
       console.error('Error:', error);
   })
 
-
-
   });
   
+  //Download Script
+  document.addEventListener("DOMContentLoaded", function() {
+        // Get the download button element
+        const downloadButton = document.getElementById("downloadButton");
+        
+        // Add click event listener to the download button
+        downloadButton.addEventListener("click", function() {
+            // Get the URL associated with the add_download view
+            const url = "{% url 'add_download' detail_tayangan.0.0 %}";
+            
+            // Use fetch to trigger the download process
+            fetch(url)
+            .then(response => {
+                if (response.ok) {
+                    // If successful, show a success modal
+                    $('#downloadSuccessModal').modal('show');
+                } else {
+                    // If not successful, log the error
+                    console.error('Failed to download:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
 
- 
-
+  //Favorite Script
+  document.addEventListener("DOMContentLoaded", function() {
+    // Get the button and dropdown elements
+    const addToFavoritesButton = document.getElementById("addToFavoritesButton");
+    const favoriteDropdown = document.getElementById("favoriteDropdown");
+    
+    // Add event listener to the "Tambah" button
+    addToFavoritesButton.addEventListener("click", function() {
+      // Get the selected favorite ID
+      const favoriteId = favoriteDropdown.value;
+      print(favoriteId);
+      
+      // Get the ID of the tayangan
+      const tayanganId = "{{ detail_tayangan.0.0 }}"; // Assuming detail_tayangan.0.0 contains the tayangan ID
+      print(favoriteId);
+      
+      // Fetch the URL with the selected favorite ID and tayangan ID
+      fetch(`/addfavoriteitem/${tayanganId}/${favoriteId}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+      })
+      .then(response => {
+        if (response.ok) {
+          // If successful, show the success modal
+          $('#addToFavoritesModal').modal('hide');
+          $('#addToFavoritesSuccessModal').modal('show');
+        } else {
+          console.error('Failed to add to favorites');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    });
+  });
 
 </script>
 

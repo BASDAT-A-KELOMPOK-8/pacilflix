@@ -107,33 +107,15 @@ def add_favorite(request, judul):
     
     return JsonResponse({'error': 'Invalid request method'}, status=405)
 
-def add_favorite_item(request):
+def add_favorite_item(request, id_tayangan, timestamp):
     if request.method == "POST":
-
         username = request.COOKIES.get('username')
-        tayangan_id = request.POST.get('tayangan_id')
-        judul_favorit = request.POST.get('judul_favorit')
-        current_timestamp = timezone.now()
-
         try:
             with connection.cursor() as cursor:
-                # Get tayangan id and judul
-                cursor.execute("SELECT id, judul FROM tayangan WHERE id = %s", [tayangan_id])
-                tayangan = cursor.fetchone()
-
-                tayangan_id = tayangan[0]
-                judul = tayangan[1]
-
                 # Insert into `tayangan_memiliki_daftar_favorit`
                 cursor.execute(
-                    "INSERT INTO tayangan_memiliki_daftar_favorit (id_tayangan, timestamp, username) VALUES (%s, %s, %s)",
-                    [tayangan_id, current_timestamp, username]
-                )
-
-                # Insert into `daftar_favorit`
-                cursor.execute(
-                    "INSERT INTO daftar_favorit (timestamp, username, judul) VALUES (%s, %s, %s)",
-                    [current_timestamp, username, judul_favorit]
+                    "INSERT INTO tayangan_memiliki_daftar_favorit (id_tayangan, timestamp, username) VALUES (%s, %s, %s);",
+                    [id_tayangan, timestamp, username]
                 )
 
             return JsonResponse({'message': 'Film added to favorites successfully'}, status=201)
