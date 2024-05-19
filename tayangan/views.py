@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 
+
 # Create your views here.
 def tayangan_display(request):
 
@@ -50,6 +51,7 @@ def get_tayangan_series():
     list_series = []
     for series in serieses:
         id = series[0]
+        print("ahoty", id)
         with connection.cursor() as cursor:
             cursor.execute("SELECT * FROM tayangan where id = %s", [id])
             list_series.extend(cursor.fetchall())
@@ -105,7 +107,7 @@ def create_view_viewers():
     durasi = create_view_get_durasi()
     create_view = """
 create view viewers as
-select id_tayangan,persentase,count(id_tayangan) as jumlah_view from get_durasi group by id_tayangan,persentase having persentase >= 20 order by persentase ;
+select id_tayangan,persentase,count(id_tayangan) as jumlah_view from get_durasi group by id_tayangan,persentase having persentase >= 70 order by persentase ;
 """
     # nanti diganti jadi >=- 70
     with connection.cursor() as cursor:
@@ -153,7 +155,7 @@ WHERE
 
 @csrf_exempt
 def detail_tayangan(request, id):
-    username = request.COOKIES.get('username')
+    username = request.COOKIES.get("username")
     id_tayangan = id
     error_message = "none"
 
@@ -163,10 +165,13 @@ def detail_tayangan(request, id):
     ulasan = get_ulasan(id)
 
     with connection.cursor() as cursor:
-        cursor.execute("SELECT judul, timestamp \
+        cursor.execute(
+            "SELECT judul, timestamp \
         FROM daftar_favorit \
         WHERE username = %s \
-        ORDER BY timestamp;", [username])
+        ORDER BY timestamp;",
+            [username],
+        )
         favorites = cursor.fetchall()
         cursor.close()
         connection.close()
@@ -187,7 +192,7 @@ def detail_tayangan(request, id):
             "ulasan": ulasan,
             "id_tayangan": id_tayangan,
             "error_message": error_message,
-            'favorites' : favorites,
+            "favorites": favorites,
         }
 
     return render(request, "detail_tayangan.html", context)
