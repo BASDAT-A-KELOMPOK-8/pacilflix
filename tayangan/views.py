@@ -25,15 +25,14 @@ def tayangan_display(request):
     return render(request, "tayangan.html", context)
 
 
-def get_pengguna():
+# def get_pengguna(self):
+#     with connection.cursor() as cursor:
 
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM film")
+#         cursor.execute("SELECT * from pengguna")
+#         data = cursor.fetchall()
+#         context = {"data": data}
 
-        data = cursor.fetchall()
-        context = {"data": data}
-
-    # return render(request, "detail_tayangan.html")
+#     # return render(request, "detail_tayangan.html")
 
 
 def get_tayangan_film():
@@ -97,12 +96,10 @@ def get_top_ten_film():
 def get_top_ten_series():
 
     with connection.cursor() as cursor:
-        cursor.execute(
-            "select *,COALESCE(jumlah_view, 0) AS viewer_count from series, tayangan left join viewers on id =id_tayangan where id = series.id_tayangan order by viewer_count desc limit 10"
-        )
+        cursor.execute("SELECT * from film")
+        data_tayangan = cursor.fetchall()
 
-        data = cursor.fetchall()
-    return data
+    return data_tayangan
 
 
 def create_view_viewers():
@@ -158,7 +155,7 @@ WHERE
 
 @csrf_exempt
 def detail_tayangan(request, id):
-    user_now = get_user(request)
+    username = request.COOKIES.get("username")
     id_tayangan = id
     error_message = "none"
 
@@ -166,6 +163,18 @@ def detail_tayangan(request, id):
         error_message = submit_ulasan(request, id_tayangan)
 
     ulasan = get_ulasan(id)
+
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT judul, timestamp \
+        FROM daftar_favorit \
+        WHERE username = %s \
+        ORDER BY timestamp;",
+            [username],
+        )
+        favorites = cursor.fetchall()
+        cursor.close()
+        connection.close()
 
     with connection.cursor() as cursor:
         cursor.execute(
@@ -183,6 +192,7 @@ def detail_tayangan(request, id):
             "ulasan": ulasan,
             "id_tayangan": id_tayangan,
             "error_message": error_message,
+            "favorites": favorites,
         }
 
     return render(request, "detail_tayangan.html", context)

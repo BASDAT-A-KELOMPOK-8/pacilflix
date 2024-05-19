@@ -49,24 +49,24 @@
 
   <div class="checkout-info">
     <h2>Package Information</h2>
-    <p><strong>Name:</strong> Premium Plan</p>
-    <p><strong>Price:</strong> $14.99/month</p>
-    <p><strong>Resolution:</strong> Ultra HD</p>
-    <p><strong>Supported Devices:</strong> Smart TV, Smartphone, Tablet, PC</p>
+    <p><strong>Name:</strong> {{ package_info.0 }}</p>
+    <p><strong>Price:</strong> ${{ package_info.1 }}/month</p>
+    <p><strong>Resolution:</strong> {{ package_info.2 }}</p>
+    <p><strong>Supported Device:</strong> {{ dukungan_perangkat }}</p>
   </div>
 
   <div class="payment-method">
     <h2>Payment Method</h2>
-    <label for="payment">Select Payment Method:</label>
-    <select id="payment">
-      <option value="transfer-bank">Transfer Bank</option>
-      <option value="kartu-kredit">Kartu Kredit</option>
-      <option value="ewallet">E-Wallet</option>
-    </select>
-  </div>
-
-  <div class="checkout-button" style="text-align: center; margin-top: 20px;">
-    <button style="padding: 10px 20px; font-size: 16px; border-radius: 5px; background-color: #007bff; color: #fff; border: none;">Checkout</button>
+    <form method="post" action="{% url 'add_transaction' package_name=package_name %}">
+      {% csrf_token %}
+      <label for="payment_method">Select Payment Method:</label>
+      <select id="payment_method" name="payment_method">
+        <option value="transfer-bank">transfer-bank</option>
+        <option value="kartu kredit">kartu kredit</option>
+        <option value="E-Wallet">E-Wallet</option>
+      </select>
+      <button type="submit">Checkout</button>
+    </form>
   </div>
 </div>
 

@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import connection
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -21,6 +22,21 @@ def show_downloads(request):
     }
 
     return render(request, "downloads.html", context)
+
+def add_download(request, id_tayangan):
+    try:
+        current_timestamp = datetime.now()
+        username = request.COOKIES.get('username')
+        
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                INSERT INTO tayangan_terunduh (id_tayangan, username, timestamp)
+                VALUES (%s, %s, %s);
+            """, [id_tayangan, username, current_timestamp])
+        return JsonResponse({'success': True, 'message': 'Tayangan berhasil diunduh.'})
+
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
 
 def delete_download(request, id_tayangan, timestamp):
     username = request.COOKIES.get('username')

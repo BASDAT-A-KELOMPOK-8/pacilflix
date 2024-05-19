@@ -19,10 +19,6 @@ from django.urls import include, path
 from authentication.views import login, register, logout_user, register_page
 from authentication.views import show_main
 
-from daftar_favorit.views import delete_favorite, show_favorites
-
-# from daftar_favorit.views import delete_favorite
-from daftar_unduhan.views import show_downloads
 from daftar_favorit.views import (
     show_favorites,
     show_favorite_details,
@@ -31,13 +27,12 @@ from daftar_favorit.views import (
     add_favorite_item,
     delete_favorited_item,
 )
-from daftar_unduhan.views import delete_download, show_downloads
+from daftar_unduhan.views import add_download, delete_download, show_downloads
 
-from elements.views import elements_list
-from langganan.views import show_subscription, show_checkout
+from langganan.views import show_subscription, show_checkout, add_transaction
 from daftar_kontributor.views import show_contributors
 
-from tayangan.views import tayangan_display, detail_tayangan
+from tayangan.views import detail_tayangan, tayangan_display
 
 app_name = "authentication"
 urlpatterns = [
@@ -46,20 +41,9 @@ urlpatterns = [
     path("handle-register/", register, name="handle_register"),
     path("login/", login, name="login"),
     path("logout/", logout_user, name="logout"),
-    path("favorites/", show_favorites, name="favorites"),
-    path("favorites/delete/", delete_favorite, name="delete_favorite"),
-    # path('<str:username>/favorites/delete/', delete_favorite, name='delete_favorite'),
-    path("downloads/", show_downloads, name="downloads"),
     path("subscription/", show_subscription, name="subscription"),
     path("checkout/", show_checkout, name="checkout"),
     path("contributors/", show_contributors, name="contributors"),
-    path("tayangan/", include("tayangan.urls"), name="tayangan"),
-    # path("tayangan/detail_tayangan", detail_tayangan, name="detail_tayangan"),
-    path("", show_main, name="show_main"),
-    path("register/", register_page, name="register"),
-    path("handle-register/", register, name="handle_register"),
-    path("login/", login, name="login"),
-    path("logout/", logout_user, name="logout"),
     path("favorites/", show_favorites, name="favorites"),
     path(
         "favorites/<str:judul>/<str:timestamp>/<str:username>/",
@@ -67,7 +51,11 @@ urlpatterns = [
         name="favorite_details",
     ),
     path("add_favorite/<str:judul>", add_favorite, name="add_favorite"),
-    # path('addfavoriteitem/<str:judul>', add_favorite_item, name='add_favorite_item'),
+    path(
+        "addfavoriteitem/<uuid:id_tayangan>/<str:timestamp>",
+        add_favorite_item,
+        name="add_favorite_item",
+    ),
     path(
         "delete/<str:judul>/<str:timestamp>/", delete_favorite, name="delete_favorite"
     ),
@@ -82,7 +70,14 @@ urlpatterns = [
         delete_download,
         name="delete_download",
     ),
+    path("add_download/<uuid:id_tayangan>/", add_download, name="add_download"),
     path("subscription/", show_subscription, name="subscription"),
-    path("checkout/", show_checkout, name="checkout"),
+    path("checkout/<str:package_name>/", show_checkout, name="checkout"),
+    path(
+        "checkout/<str:package_name>/add_transaction/",
+        add_transaction,
+        name="add_transaction",
+    ),
     path("contributors/", show_contributors, name="contributors"),
+    path("tayangan/", include("tayangan.urls")),
 ]
