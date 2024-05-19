@@ -105,7 +105,9 @@
           </td><!-- Traiuler url -->
           <td>{{ item.10}}</td> <!-- Release Date -->
           <td>{{ item.15}}</td> <!-- Release Date --> 
-        
+          <td> 
+            <button class="btn btn-primary btn-view-all"><a href="{% url 'tayangan:detail_tayangan' film.0 %}" class="btn-view-all" >Lihat Selengkapnya</a></button>
+          </td>
       </tr>
   {% endfor %}
        
