@@ -52,7 +52,8 @@ urlpatterns = [
     path('add_download/<uuid:id_tayangan>/', add_download, name='add_download'),
 
     path('subscription/', show_subscription, name='subscription'),
-    path('checkout/', show_checkout, name='checkout'),
+    path('checkout/<str:package_name>/', show_checkout, name='checkout'),
+    path('checkout/<str:package_name>/add_transaction/', add_transaction, name='add_transaction'),
     path('contributors/', show_contributors, name='contributors'),
 
     path("tayangan/", include("tayangan.urls")),
