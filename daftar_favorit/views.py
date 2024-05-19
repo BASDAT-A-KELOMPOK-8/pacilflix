@@ -1,5 +1,4 @@
-from datetime import timezone
-import json
+from datetime import datetime, timezone
 from django.shortcuts import render, redirect
 from django.db import connection
 from django.http import JsonResponse
@@ -49,17 +48,20 @@ def delete_favorite(request, judul, timestamp):
 
     try:
         with connection.cursor() as cursor:
+            print("Before Step 1")
             # Step 1: Delete all tayangan(s) associated with the daftar_favorit row in tayangan_memiliki_daftar_favorit
             cursor.execute("SET search_path TO public;")
             cursor.execute(f"DELETE FROM tayangan_memiliki_daftar_favorit WHERE timestamp = '{timestamp}' \
                            AND username = '{username}';")
+            
             # Delete daftar_favorit row from table
             cursor.execute(f"DELETE FROM daftar_favorit WHERE judul = '{judul}' \
                            AND timestamp = '{timestamp}' \
                            AND username = '{username}';")
             cursor.close()
             connection.close()
-            
+        
+        print("Deleted favorite successfully")
         return redirect(reverse('favorites'))
     
     except Exception as e:
@@ -86,15 +88,15 @@ def delete_favorited_item(request, id_tayangan, timestamp):
 def add_favorite(request, judul):
     if request.method == "POST":     
         username = request.COOKIES.get('username')
-
+        
         try:
             with connection.cursor() as cursor:
-                current_timestamp = timezone.now()
-                print(current_timestamp)
+                current_timestamp = datetime.now()
+                formatted_time = current_timestamp.strftime('%Y-%m-%d %H:%M:%S')
 
                 cursor.execute(
                     "INSERT INTO daftar_favorit (timestamp, username, judul) VALUES (%s, %s, %s)",
-                    [current_timestamp, username, judul]
+                    [formatted_time, username, judul]
                 )
 
             return JsonResponse({'success': True})

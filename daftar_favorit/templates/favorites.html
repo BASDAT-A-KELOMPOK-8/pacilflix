@@ -147,14 +147,12 @@
             };
 
             // Use fetch to call the add_favorite function
-            fetch("{% url 'add_favorite' judulBaru %}", {
-            // fetch("add_favorite/" + judulBaru , {
+            fetch("{% url 'add_favorite' 0 %}".replace('0', judulBaru), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': '{{ csrf_token }}'
                 },
-                body: JSON.stringify(data)
             })
             .then(response => {
                 if (response.ok) {

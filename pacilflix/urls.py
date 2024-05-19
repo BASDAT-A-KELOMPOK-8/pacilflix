@@ -40,9 +40,9 @@ urlpatterns = [
 
     path('favorites/', show_favorites, name='favorites'),
     path('favorites/<str:judul>/<str:timestamp>/<str:username>/', show_favorite_details, name='favorite_details'),
-    path('favorites/add_favorite/<str:judul>', add_favorite, name='add_favorite'),
+    path('add_favorite/<str:judul>', add_favorite, name='add_favorite'),
     # path('addfavoriteitem/<str:judul>', add_favorite_item, name='add_favorite_item'),
-    path('favorites/delete/<str:judul>/<str:timestamp>/', delete_favorite, name='delete_favorite'),
+    path('delete/<str:judul>/<str:timestamp>/', delete_favorite, name='delete_favorite'),
     path('deleteitem/<uuid:id_tayangan>/<str:timestamp>/', delete_favorited_item, name='delete_favorited_item'),
 
     path('downloads/', show_downloads, name='downloads'),
