@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Favorite Details</title>
+{% endblock meta %}
+
+{% block content %}
+
+    <style>
+        .favorites-link {
+            color: white !important; /* Use !important to override any other styles */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        h1 {
+            text-align: center;
+        }
+        .icon-add {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999; 
+            font-size: 70px;
+            color: green;
+            
+            margin-right: 2%;
+            margin-bottom: 2%;
+        }
+        .delete-button {
+            background: none;
+            border: none;
+            color: red;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        .delete-button:hover {
+            color: rgb(69, 0, 0);
+        }
+    </style>
+    
+    <div>
+        <div class = "container justify-content-center align-items-center my-5">
+
+            <div class="pt-3 pb-5">
+                <h1>Favorite Details</h1>
+            </div>
+
+            <div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Judul</th>
+                            <th></th>
+                        </tr>
+                    </thead>   
+                    {% for favorite in favorites %}
+                    <tbody>
+                        <tr>
+                            <td>
+                                <h4>{{ favorite.1 }}</h4>
+                            </td>
+  
+                            <td>
+                                <a class="delete-button" href="{% url 'delete_favorited_item' favorite.0 timestamp %}">
+                                    <ion-icon name="close-circle"></ion-icon>
+                                </a>                                 
+                            </td>
+                        </tr>
+                    </tbody>
+                    {% endfor %}
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock content %}

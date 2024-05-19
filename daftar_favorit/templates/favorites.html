@@ -6,39 +6,59 @@
 
 {% block content %}
 
+    <!-- Styles -->
     <style>
         .favorites-link {
             color: white !important; /* Use !important to override any other styles */
         }
+    
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        h1 {
+            text-align: center;
+        }
+        .icon-add {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999; 
+            font-size: 70px;
+            color: green;
+            
+            margin-right: 2%;
+            margin-bottom: 2%;
+        }
+        .delete-button {
+            background: none;
+            border: none;
+            color: red;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        .delete-button:hover {
+            color: rgb(69, 0, 0);
+        }
+        .favorite-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .favorite-button h4 {
+            margin: 0;
+        }
+        .favorite-button:hover h4 {
+            color: darkblue;
+        }
     </style>
 
     <div>
-        <style>
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            th, td {
-                padding: 8px;
-                text-align: left;
-                border-bottom: 1px solid #ddd;
-            }
-            h1 {
-                text-align: center;
-            }
-            .icon-add {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                z-index: 9999; 
-                font-size: 70px;
-                color: green;
-                
-                margin-right: 2%;
-                margin-bottom: 2%;
-            }
-        </style>
-        
         <div class = "container justify-content-center align-items-center my-5">
 
             <div class="pt-3 pb-5">
@@ -58,13 +78,15 @@
                     <tbody>
                         <tr>
                             <td>
-                                <h4>{{ favorite.0 }}</h4>
+                                <a class="favorite-button" href="{% url 'favorite_details' favorite.0 favorite.1|date:'Y-m-d H:i:s' request.COOKIES.username %}">
+                                    <h4>{{ favorite.0 }}</h4>
+                                </a>
                             </td>
 
-                            <td>{{ favorite.1 }}</td>
+                            <td>{{ favorite.1|date:"Y-m-d H:i:s" }}</td>
 
                             <td>
-                                <a href="#" onclick="deleteFavorite('{{ forloop.counter }}')" style="color: red; font-size: 30px;">
+                                <a class="delete-button" data-timestamp="{{ favorite.1 }}" href="{% url 'delete_favorite' favorite.0 favorite.1|date:'Y-m-d H:i:s' %}">
                                     <ion-icon name="close-circle"></ion-icon>
                                 </a>                               
                             </td>
@@ -76,36 +98,75 @@
 
         </div>
 
-        <a href="#">
+         <!-- Add Favorite Modal Trigger Button -->
+        <button type="button" style="border: none; background: none;" id="addFavoriteButton" data-toggle="modal" data-target="#addFavoriteModal">
             <ion-icon name="add-circle" class="icon-add"> </ion-icon>
-        </a>
+        </button>
 
+        <!-- Add Favorite Modal -->
+        <div class="modal fade" id="addFavoriteModal" tabindex="-1" aria-labelledby="addFavoriteModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addFavoriteModalLabel">Tambah daftar favorit baru</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control" id="judulBaruInput" placeholder="Masukkan judul baru">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="saveChangesButton">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        async function deleteFavorite(rowId) {
-            try {
-                const row = document.getElementById(`favorite-${rowId}`);
-                const judul = row.querySelector('h4').textContent;
+        // Add event listener to the Save Changes button
+        document.getElementById('saveChangesButton').addEventListener('click', function() {
+            // Get the input value
+            var judulBaru = document.getElementById('judulBaruInput').value;
+            addFavorite(judulBaru);
+        });
 
-                const response = await fetch('/favorites/delete/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token }}'  // Include CSRF token for security
-                    },
-                    body: JSON.stringify({ 'judul': judul })
-                });
-
-                if (response.ok) {
-                    row.remove();
-                } else {
-                    console.error('Failed to delete the favorite');
-                }
-            } catch (error) {
-                console.error('Error:', error);
+        // Function to validate and add favorite
+        function addFavorite(judulBaru) {
+            // Validate input (not empty and not only numbers)
+            if (judulBaru.trim() === '' || !isNaN(judulBaru)) {
+                alert('Invalid input. Please enter a valid text.');
+                return;
             }
+
+            // Create an object to hold the data
+            var data = {
+                judul_baru: judulBaru // Use snake_case for consistency with Django convention
+            };
+
+            // Use fetch to call the add_favorite function
+            fetch("{% url 'add_favorite' 0 %}".replace('0', judulBaru), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    // If successful, reload the page to show updated favorites
+                    location.reload();
+                } else {
+                    console.error('Failed to add favorite');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         }
+
     </script>
 
 {% endblock content %}

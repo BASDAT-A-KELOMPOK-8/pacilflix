@@ -37,6 +37,16 @@
                 margin-right: 2%;
                 margin-bottom: 2%;
             }
+            .delete-button {
+                background: none;
+                border: none;
+                color: red;
+                font-size: 30px;
+                cursor: pointer;
+            }
+            .delete-button:hover {
+                color: rgb(69, 0, 0);
+            }
         </style>
         
         <div class = "container justify-content-center align-items-center my-5">
@@ -54,55 +64,79 @@
                             <th>Waktu</th>
                             <th></th>
                         </tr>
-                    </thead>    
+                    </thead>   
+                    {% for download in daftar_unduhan %} 
                     <tbody>
                         <tr>
                             <td>
-                                <h4>Possession</h4>
+                                <h4>{{ download.1 }}</h4>
                             </td>
 
-                            <td>2024-05-03 10:30:15</td>
+                            <td>{{ download.2|date:"Y-m-d H:i:s" }}</td>
                             <td>
-                                <a href="#" style="color: red; font-size: 30px;">
+                                <a class="delete-button" href="{% url 'delete_download' download.0 download.2|date:'Y-m-d H:i:s' %}">
                                     <ion-icon name="close-circle"></ion-icon>
-                                </a>                               
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h4>
-                                    Dancer In The Dark
-                                </h4>
-                            </td>
-                            <td>2024-05-03 10:30:15</td>
-                            <td>
-                                <a href="#" style="color: red; font-size: 30px;">
-                                    <ion-icon name="close-circle"></ion-icon>
-                                </a>                               
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h4>
-                                    Suster Ngesot
-                                </h4>
-                            </td>
-                            <td>2024-05-03 10:30:15</td>
-                            <td>
-                                <a href="#" style="color: red; font-size: 30px;">
-                                    <ion-icon name="close-circle"></ion-icon>
-                                </a>                               
+                                </a>                         
                             </td>
                         </tr>
                     </tbody>
+                    {% endfor %}
                 </table>
             </div>
-
         </div>
 
-        <a href="#">
-            <ion-icon name="add-circle" class="icon-add"> </ion-icon>
-        </a>
+        <!-- Error Modal -->
+        <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="errorModalLabel">GAGAL MENGHAPUS TAYANGAN DARI DAFTAR UNDUHAN</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Tayangan minimal harus berada di daftar unduhan selama 1 hari agar bisa dihapus.
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
+
+    <script>
+        // Add event listener to the delete buttons
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                var url = this.href;
+    
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        // Show the error modal if the specific error message is returned
+                        if (data.error === "Tayangan terunduh harus lebih dari satu hari untuk dihapus") {
+                            $('#errorModal').modal('show');
+                        } else {
+                            console.error(data.error);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    </script>
 {% endblock content %}
