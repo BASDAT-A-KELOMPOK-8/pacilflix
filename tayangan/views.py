@@ -25,7 +25,7 @@ def tayangan_display(request):
     return render(request, "tayangan.html", context)
 
 
-def tayangan_display(request):
+def trailer_display(request):
 
     top_ten = get_top_ten_film()
     top_ten_series = get_top_ten_series()
