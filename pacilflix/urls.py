@@ -22,7 +22,7 @@ from authentication.views import show_main
 from daftar_favorit.views import show_favorites, show_favorite_details, add_favorite, delete_favorite, add_favorite_item, delete_favorited_item
 from daftar_unduhan.views import add_download, delete_download, show_downloads
 
-from langganan.views import show_subscription, show_checkout
+from langganan.views import show_subscription, show_checkout, add_transaction
 from daftar_kontributor.views import show_contributors
 
 from tayangan.views import detail_tayangan, tayangan_display
