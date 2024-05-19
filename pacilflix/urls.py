@@ -29,6 +29,17 @@ from tayangan.views import daftar_trailer, detail_episode, detail_series, tayang
 
 app_name = "authentication"
 urlpatterns = [
+
+    path("", show_main, name="show_main"),
+    path("register/", register_page, name="register"),
+    path("handle-register/", register, name="handle_register"),
+    path("login/", login, name="login"),
+    path("logout/", logout_user, name="logout"),
+
+    path("subscription/", show_subscription, name="subscription"),
+    path("checkout/", show_checkout, name="checkout"),
+    path("contributors/", show_contributors, name="contributors"),
+
     path('', show_main, name='show_main'),
     path('register/', register_page, name='register'),
     path('handle-register/', register, name='handle_register'),

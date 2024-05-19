@@ -55,12 +55,33 @@
 </head>
 <body>
 <h1 class="center-heading">Halaman Film</h1>
+
+
+{% if error_message != "none" %}
+
+<h1 class="center-heading">{{error_message}}</h1>
+{% endif %}
+
+
 <div class="container">
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">{{detail_tayangan.0.5}}</h5>
+      <div class="slider-ratio">
+        
+        <form method="POST" action="{% url 'tayangan:submit_slider' id=detail_tayangan.0.0  %}">
+        {% csrf_token %}
+          <label >Progress Nonton (0 - {{detail_tayangan.0.3}})</label>
+          <input type="range" class="slider form-range"" name="slider" id = "progressSlider" min="0" max="{{detail_tayangan.0.3}}"">
+          <p id="sliderValue"></p>
+          <td><button type="submit" id="button-nonton" class="btn btn-primary" >Nonton</button></td>
+        </form>
+
+
+      </div>
       <table class="table">
         <tbody>
+          
           <tr>
             <td>Judul:</td>
             <td>{{detail_tayangan.0.5}}</td>
@@ -125,27 +146,90 @@
       </table>
       <div>
         <h5 class="card-title">Ulasan</h5>
-        <form>
+        <form method="POST" action="{% url 'tayangan:submit_ulasan' id=detail_tayangan.0.0  %}">
+          {% csrf_token %}
           <div class="form-group">
             <label for="reviewInput">Deskripsi Ulasan:</label>
-            <input type="text" class="form-control" id="reviewInput" placeholder="Masukkan deskripsi ulasan">
+            <input type="text" name = 'ulasan' class="form-control" id="reviewInput" placeholder="Masukkan deskripsi ulasan">
           </div>
           <div class="form-group">
             <label for="ratingInput">Rating:</label>
-            <input type="number" class="form-control" id="ratingInput" placeholder="Masukkan rating">
+            <input type="number" class="form-control" id="ratingInput" name = 'rating' placeholder="Masukkan rating">
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" formmethod="POST" class="btn btn-primary submit-btn">Submit</button>
         </form>
         <h6>Daftar Ulasan:</h6>
         <ul>
-          <li>4 : Filmnya bagus tapi agak banyak masalah aja yang muncul</li>
-          <li>3 : Orang disebelah waktu nonton malah pakai headset denger lagu kenceng-kenceng jadi ngeganggu nonton filmnya :/</li>
+          {% for item in ulasan %}
+          <li><b>{{item.1}}</b> ({{item.3}}) : {{item.4}}</li>
+          {% endfor %}
           <!-- Add more reviews -->
         </ul>
       </div>
     </div>
   </div>
 </div>
+
+
+<script>
+
+
+
+
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const slider = document.getElementById("progressSlider");
+    const output = document.getElementById("sliderValue");
+  
+    // Set nilai awal output dengan nilai awal slider
+    output.textContent = slider.value;
+  
+    // Update nilai output setiap kali slider diubah
+    slider.addEventListener("input", function() {
+      output.textContent = slider.value;
+      console.log(slider.value); // Optional: untuk menampilkan nilai di console
+    });
+
+
+
+  });
+
+  
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const btn = document.getElementById("button-nonton");
+    const output = document.getElementById("sliderValue");
+
+
+    fetch("{% url 'tayangan:submit_slider' detail_tayangan.0.0 %}", {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+      },
+  })
+  .then(response => {
+      if (response.ok) {
+          // If successful, reload the page to show updated favorites
+          location.reload();
+      } else {
+          console.error('Failed to add favorite');
+      }
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  })
+
+
+
+  });
+  
+
+ 
+
+
+</script>
+
 </body>
 
 
