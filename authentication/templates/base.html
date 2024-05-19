@@ -71,7 +71,12 @@
             </ul>
         </div>
         
-        <ul class="navbar-nav ml-auto"> <!-- Moved logout button to a separate list -->
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item mr-2 mt-1">
+                <p class="text-center my-auto">
+                    Welcome, {{ request.COOKIES.username }} !
+                </p>
+            </li>
             <li class="nav-item">
                 <a href="/logout/" class="btn btn-danger">  
                     Logout
