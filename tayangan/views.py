@@ -44,16 +44,6 @@ def trailer_display(request):
     return render(request, "daftar_trailer.html", context)
 
 
-# def get_pengguna(self):
-#     with connection.cursor() as cursor:
-
-#         cursor.execute("SELECT * from pengguna")
-#         data = cursor.fetchall()
-#         context = {"data": data}
-
-#     # return render(request, "detail_tayangan.html")
-
-
 def get_tayangan_film():
     films = get_all_film()
     list_film = []
@@ -70,7 +60,6 @@ def get_tayangan_series():
     list_series = []
     for series in serieses:
         id = series[0]
-        print("ahoty", id)
         with connection.cursor() as cursor:
             cursor.execute("SELECT * FROM tayangan where id = %s", [id])
             list_series.extend(cursor.fetchall())
@@ -115,7 +104,9 @@ def get_top_ten_film():
 def get_top_ten_series():
 
     with connection.cursor() as cursor:
-        cursor.execute("SELECT * from film")
+        cursor.execute(
+            "select *,COALESCE(jumlah_view, 0) AS viewer_count from series, tayangan left join viewers on id =id_tayangan where id = series.id_tayangan order by viewer_count desc limit 10"
+        )
         data_tayangan = cursor.fetchall()
 
     return data_tayangan
@@ -178,8 +169,8 @@ def detail_tayangan(request, id):
     id_tayangan = id
     error_message = "none"
 
-    if request.method == "POST":
-        error_message = submit_ulasan(request, id_tayangan)
+    # if request.method == "POST":
+    #     error_message = submit_ulasan(request, id_tayangan)
 
     ulasan = get_ulasan(id)
 
@@ -201,17 +192,42 @@ def detail_tayangan(request, id):
         )
 
         detail_tayangan = cursor.fetchall()
-        durasi = detail_tayangan[0][3]
-        jam = durasi // 60
-        menit = durasi % 60
+        cursor.execute(
+            f"select String_agg(id_pemain::text, ', ') from memainkan_tayangan where id_tayangan = '{id}'"
+        )
+        pemain = cursor.fetchall()
+
+        cursor.execute(f"select * from genre_tayangan where id_tayangan = '{id}'")
+        genre = cursor.fetchall()
+
+        cursor.execute(
+            f"select String_agg(id_penulis_skenario::text,' | ') from menulis_skenario_tayangan where id_tayangan='{id}'"
+        )
+        penulis = cursor.fetchall()
+
+        cursor.execute(
+            f"select Avg(rating)::decimal from ulasan where id_tayangan = '{id}'"
+        )
+        rating = cursor.fetchone()
+
+        cursor.execute(f"select  durasi_film from film where id_tayangan = '{id}'")
+        durasi = cursor.fetchone()
+        print(durasi[0])
+        jam = durasi[0] // 60
+        menit = durasi[0] % 60
         total_durasi = f"{jam} jam {menit} menit"
         context = {
             "detail_tayangan": detail_tayangan,
+            "durasi_dasar": durasi[0],
             "durasi": total_durasi,
             "ulasan": ulasan,
             "id_tayangan": id_tayangan,
             "error_message": error_message,
             "favorites": favorites,
+            "pemain": pemain,
+            "genre": genre,
+            "penulis": penulis,
+            "rating": rating,
         }
 
     return render(request, "detail_tayangan.html", context)
@@ -237,53 +253,52 @@ def submit_ulasan(request, id):
         deskripsi = request.POST.get("ulasan")
         rating = request.POST.get("rating")
         id_tayangan = id
-        print(rating, deskripsi)
 
         try:
             with connection.cursor() as cursor:
                 cursor.execute(
                     f"""
-                            INSERT INTO ulasan (id_tayangan, username, timestamp,rating, deskripsi) values ('{id_tayangan}', '{user_now}', NOW(), {rating},'{deskripsi}')
-                            
-                        """,
-                    [id_tayangan, user_now, 2, "testing"],
+               INSERT INTO ulasan (id_tayangan, username, timestamp,rating, deskripsi) values ('{id_tayangan}', '{user_now}', NOW(), '{rating}','{deskripsi}')
+                """,
+                    [id_tayangan, user_now, rating, deskripsi],
                 )
-                print("berasil")
 
-                error_message = "Ulasan Berhasil Di Unggah!"
-                return error_message
+                success_message = "Ulasan Berhasil Di Unggah!"
+                print(success_message)
+                return success_message
         except Exception as e:
-            error_message = e
-            print(error_message)
-            print("GABISA")
+            print(e)
+
             error_message = "Anda sudah pernah mengulas tayangan ini!"
             return error_message
+    return HttpResponseRedirect(reverse("tayangan:detail_tayangan"))
 
 
 @csrf_exempt
 def submit_slider(request, id):
-    riwayat = find_riwayat(request, id)
     id_tayangan = id
     username = get_user(request)
     if request.method == "POST":
         slider = request.POST.get("slider")
-        print(slider)
         try:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    f"select * from riwayat_nonton where  id_tayangan = '{id_tayangan}' and username = {username}"
+                )
+            riwayat = cursor.fetchall()
+
             with connection.cursor() as cursor:
                 cursor.execute(
                     f"update riwayat_nonton SET start_date_time = now(), end_date_time = now() + interval '{slider} minute' where id_tayangan = '{id_tayangan}' and username = '{username}'"
                 )
-                print("uye")
         except Exception as e:
-            slider = 0
-
             with connection.cursor() as cursor:
                 cursor.execute(
                     f"""INSERT INTO riwayat_nonton (id_tayangan, username, start_date_time, end_date_time) VALUES ('{id_tayangan}','{username}', now(), now() + interval '{slider} minute')""",
                 )
-            print("ok")
 
     return HttpResponseRedirect(reverse("tayangan:dashboard"))
+    # return render(request, "filter.html", context)
 
 
 def find_riwayat(request, id):
@@ -292,5 +307,35 @@ def find_riwayat(request, id):
     with connection.cursor() as cursor:
         cursor.execute(f"select * from riwayat_nonton ")
         riwayat = cursor.fetchall()
-        print("ini riwayat : ", riwayat)
     return riwayat
+
+
+def search(request):
+    result = None
+    if request.method == "POST":
+        filter = request.POST.get("search_me")
+        print("Cari : ", filter)
+        try:
+
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    f"select * from tayangan where judul ilike '%{filter}%' "
+                )
+
+                result = cursor.fetchall()
+
+        except Exception as e:
+            error_message = "Item Not Found !"
+
+    if result != None or len(result) == 0:
+        error_message = "Item Not Found !"
+        print(error_message)
+
+    context = {
+        "result": result,
+        "error_message": error_message,
+        "array_length": len(result),
+    }
+    print(result)
+
+    return render(request, "filter.html", context)

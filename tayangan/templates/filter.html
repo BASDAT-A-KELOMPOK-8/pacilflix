@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<title>Daftar Tayangan</title>
+  <!-- Bootstrap CSS -->
+  <style>
+    body {
+      background-color: #15202b; /* Dark blue */
+      color: #ffffff; /* White text */
+    }
+    .container {
+      margin-top: 50px;
+    }
+    .card {
+      background-color: #1e2a38; /* Darker blue */
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .card-header {
+      background-color: #007bff; /* Light blue */
+      color: #ffffff; /* White text */
+      border-bottom: none;
+    }
+    .card-body {
+      padding: 20px;
+    }
+    .card-title {
+      color: #ffffff; /* White text */
+    }
+    .card-text {
+      color: #cccccc; /* Light gray text */
+    }
+    .btn-primary {
+      background-color: #007bff; /* Light blue */
+      border-color: #007bff; /* Light blue border */
+    }
+    .btn-primary:hover {
+      background-color: #0056b3; /* Darker blue on hover */
+      border-color: #0056b3; /* Darker blue border on hover */
+    }
+    /* Center the heading */
+    .center-heading {
+      text-align: center;
+    }
+    /* Improve text readability */
+    table {
+      color: #ffffff; /* White text */
+    }
+    th, td{
+        color: #ffffff;
+    }
+
+    .btn-view-all{
+      color : white;
+    }
+  </style>
+</head>
+<body>
+<h1 class="center-heading">Daftar Tayangan - Dashboard</h1>
+<div class="container">
+  <form action="{% url 'tayangan:search_tayangan'  %}" method="POST">
+    {% csrf_token %} 
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search Tayangan..." aria-label="Search Tayangan" aria-describedby="button-search" name="search_me">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit" id="button-search">Search</button>
+        </div>
+      </div>
+  </form>
+
+ 
+
+  <!-- Film Table -->
+  <div class="card">
+    <div class="card-body">
+     
+<table class="table">
+        <thead>
+          <tr>
+            <th>Judul</th>
+            <th>Sinopsis</th>
+            <th>Trailer URL</th>
+            <th>Tanggal Rilis</th>
+            <th>Tombol ke Halaman Tayangan</th>
+          </tr>
+        </thead>
+        {% if array_length == 0 %}
+        <tr>
+            <h1> {{error_message}}</h1>
+        </tr>
+        {% else %}
+        <tbody>
+            {% for item in result %}
+            <tr>
+                <td>{{ item.1}}</td> <!-- judul -->
+                <td>{{ item.2}}</td> <!-- sinopsis -->
+              
+                <td>{{ item.5}}</td> 
+                <td>{{ item.6}}</td> 
+                <td> 
+                  <button class="btn btn-primary btn-view-all"><a href="{% url 'tayangan:detail_tayangan' item.0 %}" class="btn-view-all" >Lihat Selengkapnya</a></button>
+                </td>
+                {% endfor %}
+      {% endif %}
+      
+             
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+   
+</div>
+</body>
+
+
+{% endblock content %}

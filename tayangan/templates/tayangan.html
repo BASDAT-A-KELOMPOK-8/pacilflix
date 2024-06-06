@@ -60,12 +60,16 @@
 <body>
 <h1 class="center-heading">Daftar Tayangan - Dashboard</h1>
 <div class="container">
+  <form action="{% url 'tayangan:search_tayangan'  %}" method="POST">
+    {% csrf_token %} 
     <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search Tayangan..." aria-label="Search Tayangan" aria-describedby="button-search">
+        <input type="text" class="form-control" placeholder="Search Tayangan..." aria-label="Search Tayangan" aria-describedby="button-search" name="search_me">
         <div class="input-group-append">
-          <button class="btn btn-primary" type="button" id="button-search">Search</button>
+          <button class="btn btn-primary" type="submit" id="button-search">Search</button>
         </div>
       </div>
+  </form>
+   
   <!-- Tayangan Terbaik Minggu Ini -->
   <div class="card">
     <div class="card-header">
