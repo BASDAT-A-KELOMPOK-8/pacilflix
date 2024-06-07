@@ -229,7 +229,7 @@ def detail_tayangan(request, id):
             "penulis": penulis,
             "rating": rating,
         }
-    print(ulasan)
+
     return render(request, "detail_tayangan.html", context)
 
 
@@ -275,21 +275,26 @@ def submit_ulasan(request, id):
 def submit_slider(request, id):
     id_tayangan = id
     username = get_user(request)
+    print(username)
+
     if request.method == "POST":
-        slider = request.POST.get("slider")
+        slider = int(request.POST.get("slider"))
+        print(int(slider))
+        with connection.cursor() as cursor:
+            cursor.execute(
+                f"""INSERT INTO riwayat_nonton (id_tayangan, username, start_date_time, end_date_time) VALUES ('{id_tayangan}','{username}', now(), now() + interval '{slider} minute')""",
+            )
         try:
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    f"select * from riwayat_nonton where  id_tayangan = '{id_tayangan}' and username = {username}"
-                )
-            riwayat = cursor.fetchall()
 
             with connection.cursor() as cursor:
                 cursor.execute(
                     f"update riwayat_nonton SET start_date_time = now(), end_date_time = now() + interval '{slider} minute' where id_tayangan = '{id_tayangan}' and username = '{username}'"
                 )
+
+            print(slider)
         except Exception as e:
             with connection.cursor() as cursor:
+                print(e, id)
                 cursor.execute(
                     f"""INSERT INTO riwayat_nonton (id_tayangan, username, start_date_time, end_date_time) VALUES ('{id_tayangan}','{username}', now(), now() + interval '{slider} minute')""",
                 )
