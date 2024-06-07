@@ -52,7 +52,7 @@ urlpatterns = [
     ),
     path("add_favorite/<str:judul>", add_favorite, name="add_favorite"),
     path(
-        "addfavoriteitem/<uuid:id_tayangan>/<str:timestamp>",
+        "addfavoriteitem/<uuid:id_tayangan>/<str:timestamp>/",
         add_favorite_item,
         name="add_favorite_item",
     ),

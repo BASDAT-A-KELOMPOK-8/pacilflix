@@ -271,7 +271,7 @@
         // Add click event listener to the download button
         downloadButton.addEventListener("click", function() {
             // Get the URL associated with the add_download view
-            const url = "{% url 'add_download' detail_tayangan.0.0 %}";
+            const url = "{% url 'add_download' detail_tayangan %}";
             
             // Use fetch to trigger the download process
             fetch(url)
@@ -303,7 +303,7 @@
       print(favoriteId);
       
       // Get the ID of the tayangan
-      const tayanganId = "{{ detail_tayangan.0.0 }}"; // Assuming detail_tayangan.0.0 contains the tayangan ID
+      const tayanganId = "{{ detail_tayangan }}"; // Assuming detail_tayangan.0.0 contains the tayangan ID
       print(favoriteId);
       
       // Fetch the URL with the selected favorite ID and tayangan ID

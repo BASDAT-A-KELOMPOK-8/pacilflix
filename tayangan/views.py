@@ -229,7 +229,7 @@ def detail_tayangan(request, id):
             "penulis": penulis,
             "rating": rating,
         }
-
+    print(ulasan)
     return render(request, "detail_tayangan.html", context)
 
 
@@ -259,19 +259,16 @@ def submit_ulasan(request, id):
                 cursor.execute(
                     f"""
                INSERT INTO ulasan (id_tayangan, username, timestamp,rating, deskripsi) values ('{id_tayangan}', '{user_now}', NOW(), '{rating}','{deskripsi}')
-                """,
-                    [id_tayangan, user_now, rating, deskripsi],
+                """
                 )
 
                 success_message = "Ulasan Berhasil Di Unggah!"
                 print(success_message)
-                return success_message
         except Exception as e:
             print(e)
 
             error_message = "Anda sudah pernah mengulas tayangan ini!"
-            return error_message
-    return HttpResponseRedirect(reverse("tayangan:detail_tayangan"))
+    return HttpResponseRedirect(reverse("tayangan:detail_tayangan", kwargs={"id": id}))
 
 
 @csrf_exempt
